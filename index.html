@@ -2,555 +2,543 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victerior | Interior Designers</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PM Surya Ghar Yojana - Solar Subsidy Scheme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cream': '#F8F5F0',
+                        'navy' : '#1a1b30',
+                        'light-blue': '#74c1ed',
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-primary: #f9fafb;
-            --bg-secondary: #ffffff;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --border-color: #e5e7eb;
-            --header-bg: #1e40af;
-            --accent-color: #f59e0b;
-            --input-bg: #ffffff;
-            --input-text: #111827;
-            --input-border: #e5e7eb;
+        .gradient-bg {
+            background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
         }
-
-        .dark-mode {
-            --bg-primary: #111827;
-            --bg-secondary: #1f2937;
-            --text-primary: #f9fafb;
-            --text-secondary: #d1d5db;
-            --border-color: #374151;
-            --header-bg: #1e3a8a;
-            --accent-color: #d97706;
-            --input-bg: #374151;
-            --input-text: #f9fafb;
-            --input-border: #4b5563;
+        .section-padding {
+            padding: 5rem 0;
         }
-
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background-color 0.3s, color 0.3s;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            overflow-x: hidden;
-        }
-
-        .bg-white {
-            background-color: var(--bg-secondary);
-        }
-
-        .text-gray-700, .text-gray-600, .text-gray-500, .text-gray-400 {
-            color: var(--text-secondary);
-        }
-
-        .border-gray-300 {
-            border-color: var(--border-color);
-        }
-
-        .bg-gray-100 {
-            background-color: var(--bg-primary);
-        }
-
-        .bg-gray-50 {
-            background-color: var(--bg-primary);
-        }
-
-        .bg-gray-200 {
-            background-color: var(--border-color);
-        }
-
-        .bg-blue-800 {
-            background-color: var(--header-bg);
-        }
-
-        .bg-yellow-500 {
-            background-color: var(--accent-color);
-        }
-
-        /* Dark mode overrides */
-        .dark-mode .bg-white {
-            background-color: var(--bg-secondary) !important;
-        }
-
-        .dark-mode .bg-gray-50 {
-            background-color: var(--bg-primary) !important;
-        }
-
-        .dark-mode .bg-gray-100 {
-            background-color: var(--bg-secondary) !important;
-        }
-
-        .dark-mode .text-blue-800 {
-            color: #93c5fd !important;
-        }
-
-        .dark-mode .hover\:bg-gray-100:hover {
-            background-color: var(--bg-primary) !important;
-        }
-
-        .dark-mode header {
-            background: linear-gradient(135deg, var(--header-bg), #1e3a8a) !important;
-        }
-
-        .dark-mode .bg-gradient-to-r {
-            background-image: linear-gradient(to right, var(--header-bg), #1e3a8a) !important;
-        }
-
-        .dark-mode-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .card-hover {
             transition: all 0.3s ease;
         }
-
-        .dark-mode-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-
-        .input-field {
-            background-color: var(--input-bg);
-            color: var(--input-text);
-            border: 1px solid var(--input-border);
-        }
-
-        .input-label {
-            color: var(--text-primary);
-        }
-
-        .glowing-title {
-            background: linear-gradient(90deg, 
-                #00ffff, #33ffff, #66ffff, #e0ffff, 
-                #00ffff, #33ffff, #66ffff, #e0ffff,
-                #00ffff, #33ffff, #66ffff, #e0ffff,
-                #00ffff, #33ffff, #66ffff, #e0ffff,
-                #00ffff, #33ffff, #66ffff, #e0ffff, 
-                #00ffff, #33ffff, #66ffff, #e0ffff
-            );
-            background-size: 300% 300%;
+        .text-gradient {
+            background: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: colorShift 16s ease infinite, glowPulse 2s ease-in-out infinite alternate;
-            position: relative;
         }
-
-        @keyframes colorShift {
-            0% { background-position: 0% 50%; }
-            25% { background-position: 50% 50%; }
-            50% { background-position: 100% 50%; }
-            75% { background-position: 50% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes glowPulse {
-            0% { 
-                transform: scale(1);
-            }
-            100% { 
-                transform: scale(1.02);
-            }
-        }
-
-        /* Simplified Pulsating Border Animation */
-        @keyframes pulsatingBorder {
-            0% {
-                box-shadow: 0 0 0 3px #ff0000;
-            }
-            50% {
-                box-shadow: 0 0 0 5px #00ffff;
-            }
-            100% {
-                box-shadow: 0 0 0 3px #ff0000;
-            }
-        }
-
-        .animated-border {
-            animation: pulsatingBorder 1.5s ease-in-out infinite;
-            border-radius: 12px;
-            position: relative;
-        }
-
-        .glow-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .glow-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-            border-color: rgba(59, 130, 246, 0.5);
-        }
-
-        .hero-gradient {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
-        }
-
-        .solar-icon {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .feature-card {
-            transition: all 0.3s ease;
-            border: 1px solid rgba(59, 130, 246, 0.1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-
-        .ai-analysis-box {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1));
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .quick-action-box {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .quick-action-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-            border-color: rgba(16, 185, 129, 0.5);
-        }
-
-        .cta-button {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            transition: all 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
-        }
-
-        /* Rocket launch animation */
-        .rocket-launch {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .rocket-icon {
-            transition: all 0.5s ease;
-        }
-
-        .rocket-launching .rocket-icon {
-            transform: scale(1.5) translateY(-10px);
-            filter: brightness(1.5);
-        }
-
-        .rocket-launching::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-            transform: translateX(-100%);
-            animation: thrust 0.5s ease-out;
-        }
-
-        @keyframes thrust {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .blur-line {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-            animation: blurLine 0.3s ease-out;
-        }
-
-        @keyframes blurLine {
-            0% { 
-                width: 0;
-                opacity: 0;
-            }
-            50% { 
-                width: 100%;
-                opacity: 1;
-            }
-            100% { 
-                width: 0;
-                opacity: 0;
-            }
-        }
-
-        /* New Styles for Hero Section */
-        .hero-section {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -1;
-        }
-
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
-            background-size: cover;
-            background-position: center;
+        .parallax {
             background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
+        .hover-lift {
+            transition: transform 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+        }
+        @keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-50% - 20px));
+    }
+}
 
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.85) 0%, rgba(59, 130, 246, 0.85) 50%, rgba(96, 165, 250, 0.85) 100%);
-        }
+.animate-scroll {
+    animation: scroll 10s linear infinite;
+}
 
-        .hero-content-container {
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 80px;
-            padding-bottom: 80px;
-        }
+.partners-container:hover .animate-scroll {
+    animation-play-state: paused;
+}
+.neon-glow {
+    box-shadow: 
+        0 0 5px rgba(116, 193, 237, 0.5),
+        0 0 10px rgba(116, 193, 237, 0.3),
+        0 0 15px rgba(116, 193, 237, 0.2),
+        0 0 20px rgba(116, 193, 237, 0.1);
+}
 
-        .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+@keyframes shimmer {
+    0% {
+        transform: skewX(-12deg) translateX(-100%);
+    }
+    100% {
+        transform: skewX(-12deg) translateX(200%);
+    }
+}
 
-        /* Flame sparks animation - FIXED */
-        .flame-spark {
-            position: fixed;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0;
-        }
+.animate-shimmer {
+    animation: shimmer 3s infinite;
+}
 
-        .flame-orange {
-            background: linear-gradient(45deg, #ff8c00, #ff4500);
-            box-shadow: 0 0 15px 5px rgba(255, 69, 0, 0.9);
-        }
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
 
-        .flame-yellow {
-            background: linear-gradient(45deg, #ffd700, #ffa500);
-            box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.9);
-        }
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+/* Testimonials Carousel Styles */
+.testimonials-carousel {
+    padding: 0 2rem;
+}
 
-        .flame-red {
-            background: linear-gradient(45deg, #ff4500, #ff0000);
-            box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.9);
-        }
+.testimonial-slide {
+    transition: transform 0.3s ease;
+}
 
-        @keyframes flyToCenter {
-            0% {
-                transform: translateX(-100px) translateY(var(--start-y)) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(calc(100vw + 100px)) translateY(var(--end-y)) rotate(180deg);
-                opacity: 0;
-                width: 6px;
-                height: 6px;
-            }
-        }
+.testimonial-slide:hover {
+    transform: translateY(-5px);
+}
+.service-slide {
+    transition: all 0.7s ease-in-out;
+}
 
-        /* Main content spacing */
-        .main-content {
-            position: relative;
-            z-index: 1;
-            background-color: var(--bg-primary);
-            margin-top: 100vh;
-        }
+.service-image-slide {
+    transition: all 0.7s ease-in-out;
+}
+
+#residential-design {
+    scroll-margin-top: 120px; /* Adjust this value as needed */
+}
     </style>
 </head>
-<body class="min-h-screen">
-    <!-- Dark Mode Toggle -->
-    <div class="dark-mode-toggle" id="darkModeToggle">
-        <i class="fas fa-moon" id="darkModeIcon"></i>
-    </div>
+<body class="font-sans bg-cream text-navy">
+    <!-- Navigation -->
 
-    <!-- Hero Section with Fixed Background -->
-    <div class="hero-section">
-        <div class="hero-background"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content-container">
-            <div class="hero-content">
-                <div class="flex flex-col md:flex-row items-center justify-between">
-                    <div class="md:w-1/2 mb-8 md:mb-0">
-                        <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 glowing-title">Powering India's Solar Revolution</h2>
-                        <p class="text-xl md:text-2xl lg:text-3xl mb-8 text-white opacity-95">The PM Surya Ghar Yojana is a visionary scheme to provide free electricity to households through rooftop solar installations with substantial government subsidies.</p>
-                    </div>
-                    <div class="md:w-1/2 flex justify-center">
-                        <div class="relative">
-                            <img src="https://placehold.co/600x400/1e40af/ffffff?text=PM+Surya+Ghar+Yojana" alt="PM Surya Ghar Yojana" class="rounded-2xl shadow-2xl w-full max-w-lg border-4 border-white/20">
-                            <div class="absolute -top-4 -right-4 bg-yellow-500 text-white p-3 rounded-full shadow-xl">
-                                <i class="fas fa-solar-panel text-3xl"></i>
-                            </div>
+<div id="header"></div>
+<script>
+    fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header').innerHTML = data;
+        });
+</script>
+
+<!-- Hero Section -->
+<section id="home" class="min-h-screen flex items-center justify-center bg-cover bg-center parallax" style="background-image: url('https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')">
+    <div class="container mx-auto px-6">
+        <div class="max-w-2xl bg-white/80 backdrop-blur-sm p-8 rounded-lg">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-navy mb-4">Transform Your Space with elegance</h1>
+            <p class="text-lg text-navy/80 mb-6">By wisdom a house is built, and through understanding it is established;</p>
+            <div class="flex flex-wrap gap-4">
+                <button onclick="window.location.href='portfolio.html'" class="bg-navy text-white px-6 py-3 rounded hover:bg-light-blue transition">View Our Work</button>
+                <button onclick="window.location.href='contact.html'" class="border border-navy text-navy px-6 py-3 rounded hover:bg-navy hover:text-white transition">Start Your Design Journey!</button>
+            </div>
+        </div>
+    </div>
+</section>
+ 
+<!-- Services Section -->
+<section id="services" class="pt-12 pb-6 bg-white scroll-mt-20">
+    <div class="container mx-auto px-6">
+        <!-- Main Heading -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy mb-4">Our Services</h2>
+            <p class="text-lg text-navy/70 max-w-2xl mx-auto">We offer comprehensive interior design solutions tailored to your unique needs and preferences</p>
+        </div>
+
+        <!-- Slideshow Container -->
+        <div class="flex flex-col lg:flex-row min-h-[300px]">
+            <!-- Left Content - Text -->
+            <div class="lg:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+                <!-- Service Title -->
+                <div class="mb-2">
+                    <h3 id="residential-design" class="text-2xl md:text-3xl font-serif font-bold text-navy mb-4">Residential Design</h3>
+                </div>
+                
+                <!-- Service Content -->
+                <div id="services-content" class="services-content flex-grow transition-all duration-700 ease-in-out">
+                    <!-- Content will be dynamically updated by JavaScript -->
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="mt-8">
+                   <a href="portfolio.html" class="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-lg hover:bg-light-blue transition transform hover:-translate-y-1 shadow-lg">
+                        <span>View Our Projects</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+<!-- Right Content - Image Container -->
+<div class="lg:w-1/2">
+    <div class="h-80 md:h-96 lg:h-[480px] bg-gray-100 rounded-xl overflow-hidden shadow-lg relative">
+        <div id="services-image" class="services-image w-full h-full">
+            <!-- Images will be dynamically updated by JavaScript -->
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="process" class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy mb-4">How It Works</h2>
+            <p class="text-lg text-navy/70 max-w-2xl mx-auto">Our sleek process ensures a great design experience from start to finish (hover/tap on the icons!)</p>
+        </div>
+
+        <!-- Process Flow -->
+        <div class="process-flow relative">
+            <!-- Process Steps -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-4">
+                <!-- Step 1 -->
+                <div class="process-step text-center group">
+                    <div class="step-number w-12 h-12 bg-light-blue text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg">1</div>
+                    <div class="step-icon relative text-4xl text-navy mb-4 group-hover:text-light-blue transition-colors cursor-pointer">
+                        <i class="fas fa-handshake"></i>
+                        <div class="hover-image absolute bottom-full left-1/2 transform -translate-x-1/2 w-64 h-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10 p-2">
+                            <img src="https://i.postimg.cc/pTNqp8Mz/step1.jpg" alt="Initial Consultation" class="w-full h-full object-cover rounded">
                         </div>
                     </div>
+                    <h3 class="step-title text-lg font-semibold text-navy mb-2">Initial Consultation</h3>
+                    <p class="step-description text-navy/70 text-sm">We discuss your vision, requirements, and budget</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="process-step text-center group">
+                    <div class="step-number w-12 h-12 bg-light-blue text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg">2</div>
+                    <div class="step-icon relative text-4xl text-navy mb-4 group-hover:text-light-blue transition-colors cursor-pointer">
+                        <i class="fas fa-ruler-combined"></i>
+                        <div class="hover-image absolute bottom-full left-1/2 transform -translate-x-1/2 w-64 h-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10 p-2">
+                            <img src="https://i.postimg.cc/pdrgDKSS/step2.jpg" alt="Site Evaluation" class="w-full h-full object-cover rounded">
+                        </div>
+                    </div>
+                    <h3 class="step-title text-lg font-semibold text-navy mb-2">Site Evaluation</h3>
+                    <p class="step-description text-navy/70 text-sm">Our team visits your space for measurements</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="process-step text-center group">
+                    <div class="step-number w-12 h-12 bg-light-blue text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg">3</div>
+                    <div class="step-icon relative text-4xl text-navy mb-4 group-hover:text-light-blue transition-colors cursor-pointer">
+                        <i class="fas fa-pencil-ruler"></i>
+                        <div class="hover-image absolute bottom-full left-1/2 transform -translate-x-1/2 w-64 h-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10 p-2">
+                            <img src="https://i.postimg.cc/ZYwYw7M7/step3.jpg" alt="Concept Design" class="w-full h-full object-cover rounded">
+                        </div>
+                    </div>
+                    <h3 class="step-title text-lg font-semibold text-navy mb-2">Concept Design</h3>
+                    <p class="step-description text-navy/70 text-sm">We create initial sketches and plans</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="process-step text-center group">
+                    <div class="step-number w-12 h-12 bg-light-blue text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg">4</div>
+                    <div class="step-icon relative text-4xl text-navy mb-4 group-hover:text-light-blue transition-colors cursor-pointer">
+                        <i class="fas fa-object-group"></i>
+                        <div class="hover-image absolute bottom-full left-1/2 transform -translate-x-1/2 w-64 h-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10 p-2">
+                            <img src="https://i.postimg.cc/nVBNYFdn/step4.jpg" alt="Design Development" class="w-full h-full object-cover rounded">
+                        </div>
+                    </div>
+                    <h3 class="step-title text-lg font-semibold text-navy mb-2">Design Development</h3>
+                    <p class="step-description text-navy/70 text-sm">Refining selections and finalizing design</p>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="process-step text-center group">
+                    <div class="step-number w-12 h-12 bg-light-blue text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg">5</div>
+                    <div class="step-icon relative text-4xl text-navy mb-4 group-hover:text-light-blue transition-colors cursor-pointer">
+                        <i class="fas fa-home"></i>
+                        <div class="hover-image absolute bottom-full left-1/2 transform -translate-x-1/2 w-64 h-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10 p-2">
+                            <img src="https://i.postimg.cc/6QF1ngn7/step5.jpg" alt="Implementation" class="w-full h-full object-cover rounded">
+                        </div>
+                    </div>
+                    <h3 class="step-title text-lg font-semibold text-navy mb-2">Implementation</h3>
+                    <p class="step-description text-navy/70 text-sm">We bring the design to life with execution</p>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Navigation Header -->
-    <div id="header" class="relative z-10"></div>
-    <script>
-        fetch('header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header').innerHTML = data;
-            });
-    </script>
-
-    <!-- Main Content -->
-    <main class="main-content container mx-auto px-4 py-8">
-        <!-- Scheme Description Section -->
-        <section class="mb-12">
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 max-w-6xl mx-auto">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-800 dark:text-white">About PM Surya Ghar Yojana</h2>
-                <div class="prose prose-lg max-w-none text-gray-700 dark:text-gray-300">
-                    <p class="mb-4">The PM Surya Ghar: Muft Bijli Yojana is a revolutionary scheme launched by the Government of India to promote the adoption of rooftop solar systems in residential households. This ambitious initiative aims to provide free electricity to up to 1 crore households who choose to install rooftop solar systems, while also offering substantial financial subsidies to make the transition affordable and accessible.</p>
+<!-- Testimonials -->
+<section id="testimonials" class="py-16 bg-navy text-white"> 
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">What Our Clients Say</h2>
+            <p class="text-lg max-w-2xl mx-auto">Hear from homeowners and businesses who have transformed their spaces with our design expertise.</p>
+        </div>
+        
+        <!-- Testimonials Carousel -->
+        <div class="relative max-w-6xl mx-auto">
+            <!-- Carousel Container -->
+            <div class="testimonials-carousel overflow-hidden">
+                <div class="testimonials-track flex transition-transform duration-500 ease-in-out" id="testimonialsTrack">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-slide min-w-[calc(34.825%-1rem)] px-2">
+                        <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-light-blue rounded-full flex items-center justify-center text-white font-bold mr-4">Er.S</div>
+                                <div>
+                                    <h4 class="font-semibold">Engineer. Selvakumar</h4>
+                                    <p class="text-sm opacity-80"> Annai Builders</p>
+                                </div>
+                            </div>
+                            <p class="italic">"Coimbatore may have a lot of Interior builders but i prefer Victerior because they provide high quality services. I also recommend them to my civil project customers."</p>
+                        </div>
+                    </div>
                     
-                    <p class="mb-4">Under this scheme, eligible households can receive subsidies of up to 60% of the installation cost, with a maximum subsidy of ₹78,000. The scheme is designed to not only reduce electricity bills for households but also contribute to India's renewable energy goals and environmental sustainability. By harnessing solar power, households can become self-reliant in their energy needs and even earn additional income by selling excess electricity back to the grid.</p>
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-slide min-w-[calc(34.825%-1rem)] px-2">
+                        <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-light-blue rounded-full flex items-center justify-center text-white font-bold mr-4">P</div>
+                                <div>
+                                    <h4 class="font-semibold">Mr. K.K.Prabhu</h4>
+                                    <p class="text-sm opacity-80">Resident</p>
+                                </div>
+                            </div>
+                            <p class="italic">"At first I enquired them for interior designs, but they also helped in other aspects such as electrical and plumbing, So I gave them my whole house for perfection!</p>
+                        </div>
+                    </div>
                     
-                    <p class="mb-4">The application process has been simplified through a centralized national portal that streamlines the entire process - from registration to installation and subsidy disbursement. The scheme also supports the development of a robust ecosystem for solar energy, creating employment opportunities for youth with technical skills in installation, manufacturing, and maintenance of solar panels.</p>
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-slide min-w-[calc(34.825%-1rem)] px-2">
+                        <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-light-blue rounded-full flex items-center justify-center text-white font-bold mr-4">KS</div>
+                                <div>
+                                    <h4 class="font-semibold">Mrs. Kavitha Senthil</h4>
+                                    <p class="text-sm opacity-80">Resident</p>
+                                </div>
+                            </div>
+                            <p class="italic">"I felt satisfied with their small works, so i recommended them to my neighbours and relatives. They also did my next projects"</p>
+                        </div>
+                    </div>
                     
-                    <p class="mb-4">With an allocated budget of ₹75,021 crore, the PM Surya Ghar Yojana represents one of the world's largest rooftop solar programs. It aligns with India's commitment to reach 500 GW of renewable energy capacity by 2030 and achieve net-zero emissions by 2070. The scheme not only addresses energy access and affordability but also positions India as a global leader in the clean energy transition.</p>
+                    <!-- Testimonial 4 (New) -->
+                    <div class="testimonial-slide min-w-[calc(34.825%-1rem)] px-2">
+                        <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-light-blue rounded-full flex items-center justify-center text-white font-bold mr-4">R&P</div>
+                                <div>
+                                    <h4 class="font-semibold">Mr. K.P Rajan & Mrs. Premalatha</h4>
+                                    <p class="text-sm opacity-80">Residents</p>
+                                </div>
+                            </div>
+                            <p class="italic">"They helped us to renovate our house. Their works kept getting better so I hired them for providing interiors for the new rooms by extending my house."</p>
+                        </div>
+                    </div>
                     
-                    <p>Households interested in availing benefits under this scheme can register through the national portal, where they can also access a subsidy calculator, vendor information, and detailed guidelines. The scheme is expected to not only transform India's energy landscape but also empower households to become active participants in the country's sustainable development journey.</p>
+                    <!-- Testimonial 5 (New) -->
+                    <div class="testimonial-slide min-w-[calc(34.825%-1rem)] px-2">
+                        <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-light-blue rounded-full flex items-center justify-center text-white font-bold mr-4">KR</div>
+                                <div>
+                                    <h4 class="font-semibold">Mrs. Kowsalya Ravindran</h4>
+                                    <p class="text-sm opacity-80">Resident</p>
+                                </div>
+                            </div>
+                            <p class="italic">"They were working on our colleague's home in Dindugul while I was living in Canada. I have never met them till the day but they gave me great explanations online and their works were beyond my expectations"</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <!-- AI Analysis Section -->
-        <section class="mb-12 relative" id="aiAnalysisSection">
-            <div class="ai-analysis-box rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto relative z-10">
-                <h3 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">AI-Powered Solar Analysis</h3>
-                <p class="text-lg md:text-xl mb-8 text-gray-700 dark:text-gray-300">Our advanced AI system automatically verifies rooftop solar installations and checks eligibility for subsidies under the PM Surya Ghar Yojana scheme.</p>
-                <button id="startAnalysis" class="rocket-launch cta-button text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg relative overflow-hidden">
-                    <i class="fas fa-rocket rocket-icon mr-2"></i> Start AI Analysis
-                </button>
-            </div>
-        </section>
-
-        <!-- Quick Actions Section -->
-        <section class="mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Quick Actions</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Subsidy Calculator Box -->
-                <div class="quick-action-box rounded-2xl p-8 text-center">
-                    <i class="fas fa-calculator text-5xl text-green-500 mb-6"></i>
-                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Subsidy Calculator</h3>
-                    <p class="text-gray-700 dark:text-gray-300 mb-6">Calculate your potential savings and subsidy amount based on your location and energy needs.</p>
-                    <button id="subsidyCalculatorBtn" class="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition">
-                        <i class="fas fa-external-link-alt mr-2"></i> Open Calculator
-                    </button>
-                </div>
-                
-                <!-- Application Flowchart Box -->
-                <div class="quick-action-box rounded-2xl p-8 text-center">
-                    <i class="fas fa-project-diagram text-5xl text-blue-500 mb-6"></i>
-                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Application Process</h3>
-                    <p class="text-gray-700 dark:text-gray-300 mb-6">Follow our step-by-step flowchart to understand how to apply for the PM Surya Ghar Yojana scheme.</p>
-                    <button id="applicationFlowBtn" class="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
-                        <i class="fas fa-external-link-alt mr-2"></i> View Flowchart
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Scheme Benefits Section -->
-        <section class="mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Scheme Benefits</h2>
+            <!-- Navigation Buttons -->
+            <button class="testimonial-prev absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition z-10">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="testimonial-next absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition z-10">
+                <i class="fas fa-chevron-right"></i>
+            </button>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-home text-3xl text-blue-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">For Residential Users</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Subsidies up to ₹78,000 for installing rooftop solar systems</p>
-                </div>
-                
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-industry text-3xl text-green-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">For Commercial Users</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Accelerated depreciation and tax benefits available</p>
-                </div>
-                
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-bolt text-3xl text-yellow-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Free Electricity</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Generate your own power and reduce electricity bills significantly</p>
-                </div>
-                
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-chart-line text-3xl text-purple-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Income Opportunity</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Sell excess electricity back to the grid and earn additional income</p>
-                </div>
+            <!-- Dots Indicator -->
+            <div class="flex justify-center mt-8 space-x-2" id="testimonialDots">
+                <!-- Dots will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</section>
 
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-rupee-sign text-red-400 text-3xl mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Substantial Subsidies</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Up to 60% subsidy on installation costs for eligible households</p>
+        <!-- About Section -->
+    <section id="about" class="section-padding bg-light">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-10 lg:mb-0">
+                    <div class="relative">
+                        <img src="https://i.postimg.cc/3wwZydJh/Brochure-inside-main.jpg" alt="Our Team" class="rounded-xl shadow-lg">
+                        <div class="absolute -bottom-6 -left-6 bg-navy text-white p-6 rounded-xl shadow-lg">
+                            <p class="text-3xl font-serif font-bold">VICTERIOR</p>
+                            <p class="text-lg text-center">Interior designers</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-leaf text-emerald-400 text-3xl mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Green Energy</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Contribute to India's renewable energy goals and a cleaner environment</p>
+                <div class="lg:w-1/2 lg:pl-12">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">About Us</h2>
+                    <p class="text-gray-600 mb-6">Victerior was founded with a passion for transforming ordinary spaces into extraordinary environments. We bring together diverse perspectives and expertise to create interiors that are both beautiful and functional.</p>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-start mb-4">
+                            <div class="w-8 h-8 bg-navy rounded-full flex items-center justify-center mr-4 mt-1">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark mb-1">Innovative Designs</h3>
+                                <p class="text-gray-600">We stay ahead of industry trends to provide cutting-edge solutions.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start mb-4">
+                            <div class="w-8 h-8 bg-navy rounded-full flex items-center justify-center mr-4 mt-1">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark mb-1">Expert Team</h3>
+                                <p class="text-gray-600">Our team consists of skilled professionals with great expertise.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-navy rounded-full flex items-center justify-center mr-4 mt-1">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-dark mb-1">Client-Centric Approach</h3>
+                                <p class="text-gray-600">We prioritize our clients' needs and bring their dream homes to life.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="window.location.href='about.html'" class="bg-navy text-white px-6 py-3 rounded-lg font-bold hover:bg-light-blue transition">Learn More About Us</button>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+<!-- Trusted Partners Section -->
+<section id="partners" class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy mb-4">Our Trusted Partners</h2>
+            <p class="text-lg text-navy/70 max-w-2xl mx-auto">We collaborate with industry leaders to deliver exceptional quality</p>
+        </div>
+        
+        <div class="partners-container overflow-hidden relative py-5">
+            <!-- Left Fade Gradient -->
+            <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10"></div>
+            
+            <!-- Right Fade Gradient -->
+            <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
+            
+            <div class="partners-track flex gap-8 md:gap-10" style="width: max-content; animation: scroll 40s linear infinite;">
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/q6qH92nx/trojan-plywood.png" alt="Trojan Plywood" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/4mnXMRQR/blum.png" alt="Blum" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/v1wMcgFG/haffele.png" alt="Haffele" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/cgXN9FKJ/hettich.png" alt="Hettich" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/qzYpHD1h/ebco.png" alt="Ebco" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/F1rryLfR/action-tesa.png" alt="Action Tesa" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/fV9Dz7PH/europratik.png" alt="Europratik" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/8J1Sm2z3/merino.png" alt="Merino" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/v17y9Ybf/greenlam.png" alt="Greenlam" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/Jtp1PzJQ/dexarte-300x300.jpg" alt="Dexarte" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                
+                <!-- Duplicate for seamless loop -->
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/q6qH92nx/trojan-plywood.png" alt="Trojan Plywood" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/4mnXMRQR/blum.png" alt="Blum" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/v1wMcgFG/haffele.png" alt="Haffele" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/cgXN9FKJ/hettich.png" alt="Hettich" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/qzYpHD1h/ebco.png" alt="Ebco" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/F1rryLfR/action-tesa.png" alt="Action Tesa" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/fV9Dz7PH/europratik.png" alt="Europratik" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/8J1Sm2z3/merino.png" alt="Merino" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/v17y9Ybf/greenlam.png" alt="Greenlam" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+                <div class="partner-logo flex items-center justify-center h-16 md:h-20 min-w-32 md:min-w-40">
+                    <img src="https://i.postimg.cc/Jtp1PzJQ/dexarte-300x300.jpg" alt="Dexarte" class="max-h-full max-w-full object-contain transition-all duration-300 hover:scale-105">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="pt-4 pb-16 bg-white relative">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto bg-white rounded-2xl p-8 md:p-12 relative overflow-hidden border-2 border-light-blue animate-float neon-glow">
+            <!-- Moving inner glow effect -->
+            <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-blue-400/20 to-transparent transform -skew-x-12 -translate-x-full animate-shimmer z-0"></div>
+            
+            <!-- Neon border overlay -->
+            <div class="absolute inset-0 rounded-2xl border-2 border-light-blue/80 shadow-[0_0_15px_rgba(116,193,237,0.8),inset_0_0_15px_rgba(116,193,237,0.3)] z-0"></div>
+            
+            <div class="text-center relative z-10">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-6 text-navy">Ready to Transform Your Home?</h2>
+                <p class="text-lg text-navy mb-8 max-w-2xl mx-auto">Contact us today to discuss your requirements and discover how our designs can make your home better.</p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                   <button onclick="window.location.href='contact.html'" class="bg-navy text-white px-8 py-4 rounded-lg font-bold hover:bg-light-blue transition transform hover:-translate-y-1 shadow-lg relative z-10">Get in touch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
    <div id="footer"></div>
 <script>
@@ -562,215 +550,364 @@
 </script>
 
     <script>
-        // Dark Mode Toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = document.getElementById('darkModeIcon');
+        // Simple script for smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Services Carousel
+document.addEventListener('DOMContentLoaded', function() {
+    // Services Carousel Functionality
+    const serviceCarouselInner = document.querySelector('.carousel-inner');
+    const serviceItems = document.querySelectorAll('.carousel-item');
+    const servicePrevBtn = document.querySelector('.carousel-nav-btn.prev');
+    const serviceNextBtn = document.querySelector('.carousel-nav-btn.next');
+    const serviceDotsContainer = document.querySelector('.carousel-dots');
+    let currentServiceIndex = 0;
+
+    if (serviceItems.length > 0) {
+        // Generate dots
+        serviceItems.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.classList.add('w-3', 'h-3', 'bg-gray-300', 'rounded-full', 'cursor-pointer', 'transition');
+            dot.setAttribute('data-slide-to', index);
+            serviceDotsContainer.appendChild(dot);
+        });
+
+        const serviceDots = document.querySelectorAll('.carousel-dots span');
+
+        function showServiceSlide(index) {
+            serviceCarouselInner.style.transform = `translateX(-${index * 100}%)`;
+            serviceDots.forEach((dot, i) => {
+                dot.classList.toggle('bg-navy', i === index);
+                dot.classList.toggle('bg-gray-300', i !== index);
+            });
+            currentServiceIndex = index;
+        }
+
+        servicePrevBtn.addEventListener('click', () => {
+            currentServiceIndex = (currentServiceIndex - 1 + serviceItems.length) % serviceItems.length;
+            showServiceSlide(currentServiceIndex);
+        });
+
+        serviceNextBtn.addEventListener('click', () => {
+            currentServiceIndex = (currentServiceIndex + 1) % serviceItems.length;
+            showServiceSlide(currentServiceIndex);
+        });
+
+        serviceDots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                currentServiceIndex = parseInt(e.target.getAttribute('data-slide-to'));
+                showServiceSlide(currentServiceIndex);
+            });
+        });
+
+        // Auto-rotate every 6 seconds
+        setInterval(() => {
+            currentServiceIndex = (currentServiceIndex + 1) % serviceItems.length;
+            showServiceSlide(currentServiceIndex);
+        }, 6000);
+
+        // Initialize
+        showServiceSlide(currentServiceIndex);
+    }
+});
+
+// Services Slideshow
+document.addEventListener('DOMContentLoaded', function() {
+    const servicesData = [
+        {
+            title: "Residential Design",
+            description: "Transform your living spaces into personalized sanctuaries that reflect your lifestyle and personality. We specialize in creating functional, beautiful homes that maximize space and comfort.",
+            image: "https://i.postimg.cc/bwSptPjf/1.jpg",
+            features: [
+                "Custom home interiors",
+                "Space optimization",
+                "Personalized styling",
+                "Family-friendly designs"
+            ]
+        },
+        {
+            title: "Commercial Design",
+            description: "Create professional environments that inspire productivity and impress clients. From office spaces to retail establishments, we design commercial interiors that support your business goals.",
+            image: "https://i.postimg.cc/Vv7mjL6m/2.jpg",
+            features: [
+                "Office spaces",
+                "Retail establishments",
+                "Brand-aligned designs",
+                "Productivity-focused layouts"
+            ]
+        },
+        {
+    "title": "Space Planning",
+    "description": "We provide optimized layouts that maximize functionality and flow in any space. Our strategic planning maximizes the zones and ensures every element has its perfect place.",
+    "image": "https://i.postimg.cc/CMJhyJ4X/3.jpg",
+    "features": [
+        "Functional Zoning & Definition",
+        "Furniture Arrangement & Scaling",
+        "Custom Storage Solutions",
+        "Budget-Conscious Space Utilization"
+    ]
+},
+       {
+    "title": "Furniture Selection",
+    "description": "We select furniture that defines your space's character. We expertly mix styles, scales, and periods to create a collected, personal, and functional interior.",
+    "image": "https://i.postimg.cc/VLVzv6pF/4.jpg",
+    "features": [
+        "Custom Furniture Design",
+        "Scale & Proportions",
+        "Unique Material & Finish",
+        "Aesthetics"
+    ]
+},
+        {
+    "title": "Contrasting Styles",
+    "description": "We specialize in the art of the mix, creating dynamic and deeply personal spaces by blending different design eras and aesthetics.",
+    "image": "https://i.postimg.cc/Twf6FW5T/5.jpg",
+    "features": [
+        "Harmonizing Modern & Traditional Elements",
+        "Textures Enhancement",
+        "Curated Furniture & Decor Pairings",
+        "Personalized Style Fusion Consultations"
+    ]
+},
+        {
+    "title": "Lighting Design",
+    "description": "We craft the mood and functionality of your space through layered lighting. Our designs create the perfect atmosphere for any moment.",
+    "image": "https://i.postimg.cc/CKj0c41v/6.jpg",
+    "features": [
+        "Multi-Layered Lighting Plans",
+        "Statement Fixture Selection",
+        "Enhancing Space & Architecture with Light",
+        "Custom Control Systems",
+    ]
+}
+    ];
+
+    const servicesContent = document.getElementById('services-content');
+    const servicesImage = document.getElementById('services-image');
+
+    let currentServiceIndex = 0;
+    let autoSlideInterval;
+
+    // Initialize services content
+    function initializeServices() {
+        servicesContent.innerHTML = '';
+        servicesImage.innerHTML = '';
         
-        // Check for saved theme preference or respect OS preference
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-        const currentTheme = localStorage.getItem('theme');
+        servicesData.forEach((service, index) => {
+// Create content slide
+const contentSlide = document.createElement('div');
+contentSlide.className = `service-slide transition-all duration-700 ease-in-out ${index === 0 ? 'active opacity-100' : 'hidden opacity-0'}`;
+contentSlide.innerHTML = `
+    <p class="text-navy/70 mb-6 text-lg">${service.description}</p>
+    <ul class="space-y-3 mb-8">
+        ${service.features.map(feature => `
+            <li class="flex items-center">
+                <i class="fas fa-check text-light-blue mr-3"></i>
+                <span>${feature}</span>
+            </li>
+        `).join('')}
+    </ul>
+`;
+            servicesContent.appendChild(contentSlide);
+
+// Create image slide with fixed positioning
+const imageSlide = document.createElement('div');
+imageSlide.className = `service-image-slide absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${index === 0 ? 'opacity-100' : 'opacity-0'}`;
+imageSlide.innerHTML = `<img src="${service.image}" alt="${service.title}" class="w-full h-full object-cover">`;
+servicesImage.appendChild(imageSlide);
+        });
+    }
+
+    // Show specific service
+    function showService(index) {
+        // Hide all slides
+document.querySelectorAll('.service-slide').forEach(slide => {
+    slide.classList.add('hidden', 'opacity-0');
+    slide.classList.remove('opacity-100');
+});
+document.querySelectorAll('.service-image-slide').forEach(slide => {
+    slide.classList.add('opacity-0');
+    slide.classList.remove('opacity-100');
+});
+
+// Show current slides
+document.querySelectorAll('.service-slide')[index].classList.remove('hidden', 'opacity-0');
+document.querySelectorAll('.service-slide')[index].classList.add('opacity-100');
+document.querySelectorAll('.service-image-slide')[index].classList.remove('opacity-0');
+document.querySelectorAll('.service-image-slide')[index].classList.add('opacity-100');
+
+        // Update service title
+    document.getElementById('residential-design').textContent = servicesData[index].title;
+
+        currentServiceIndex = index;
+    }
+
+    // Next service
+    function nextService() {
+        const nextIndex = (currentServiceIndex + 1) % servicesData.length;
+        showService(nextIndex);
+    }
+
+    // Previous service
+    function prevService() {
+        const prevIndex = (currentServiceIndex - 1 + servicesData.length) % servicesData.length;
+        showService(prevIndex);
+    }
+
+    // Auto slide every 7 seconds
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(nextService, 7000);
+    }
+
+    // Stop auto slide on user interaction
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+ 
+    // Initialize
+    initializeServices();
+    startAutoSlide();
+});
+
+// Partners Carousel Functionality - Simplified
+const partnersTrack = document.querySelector('.partners-track');
+const partnersContainer = document.querySelector('.partners-container');
+
+if (partnersTrack && partnersContainer) {
+    // Pause animation on hover
+    partnersContainer.addEventListener('mouseenter', () => {
+        partnersTrack.style.animationPlayState = 'paused';
+    });
+    
+    partnersContainer.addEventListener('mouseleave', () => {
+        partnersTrack.style.animationPlayState = 'running';
+    });
+}
+
+// Testimonials Carousel
+document.addEventListener('DOMContentLoaded', function() {
+    const testimonialsTrack = document.getElementById('testimonialsTrack');
+    const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+    const testimonialPrevBtn = document.querySelector('.testimonial-prev');
+    const testimonialNextBtn = document.querySelector('.testimonial-next');
+    const testimonialDotsContainer = document.getElementById('testimonialDots');
+    
+    let currentTestimonialIndex = 0;
+    const slidesToShow = 3;
+    const totalSlides = testimonialSlides.length;
+    
+    // Generate dots
+    for (let i = 0; i < totalSlides - slidesToShow + 1; i++) {
+        const dot = document.createElement('span');
+        dot.classList.add('w-3', 'h-3', 'bg-white/30', 'rounded-full', 'cursor-pointer', 'transition');
+        dot.setAttribute('data-slide-to', i);
+        testimonialDotsContainer.appendChild(dot);
+    }
+    
+    const testimonialDots = document.querySelectorAll('#testimonialDots span');
+    
+    function updateTestimonialsCarousel() {
+        const translateX = -currentTestimonialIndex * (100 / slidesToShow);
+        testimonialsTrack.style.transform = `translateX(${translateX}%)`;
         
-        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
-            document.body.classList.add('dark-mode');
-            darkModeIcon.classList.remove('fa-moon');
-            darkModeIcon.classList.add('fa-sun');
+        // Update dots
+        testimonialDots.forEach((dot, index) => {
+            dot.classList.toggle('bg-white', index === currentTestimonialIndex);
+            dot.classList.toggle('bg-white/30', index !== currentTestimonialIndex);
+        });
+    }
+    
+    testimonialPrevBtn.addEventListener('click', () => {
+        currentTestimonialIndex = Math.max(0, currentTestimonialIndex - 1);
+        updateTestimonialsCarousel();
+    });
+    
+    testimonialNextBtn.addEventListener('click', () => {
+        currentTestimonialIndex = Math.min(totalSlides - slidesToShow, currentTestimonialIndex + 1);
+        updateTestimonialsCarousel();
+    });
+    
+    testimonialDots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            currentTestimonialIndex = parseInt(e.target.getAttribute('data-slide-to'));
+            updateTestimonialsCarousel();
+        });
+    });
+    
+    
+    // Initialize
+    updateTestimonialsCarousel();
+});
+
+function openQuoteModal() {
+    document.getElementById('quoteModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeQuoteModal() {
+    document.getElementById('quoteModal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+// Close modal when clicking outside
+document.getElementById('quoteModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeQuoteModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeQuoteModal();
+    }
+});
+
+// Quote form submission
+document.getElementById('quoteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const submitButton = this.querySelector('button[type="submit"]');
+    const formMessage = document.getElementById('formMessage');
+    
+    // Show loading state
+    submitButton.innerHTML = 'Sending...';
+    submitButton.disabled = true;
+    formMessage.classList.add('hidden');
+    
+    fetch('send_quote.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data === 'success') {
+            formMessage.textContent = 'Thank you! Your quote request has been sent.';
+            formMessage.classList.remove('hidden', 'text-red-500');
+            formMessage.classList.add('text-green-500');
+            document.getElementById('quoteForm').reset();
+        } else {
+            throw new Error('Submission failed');
         }
-        
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                darkModeIcon.classList.remove('fa-moon');
-                darkModeIcon.classList.add('fa-sun');
-            } else {
-                localStorage.setItem('theme', 'light');
-                darkModeIcon.classList.remove('fa-sun');
-                darkModeIcon.classList.add('fa-moon');
-            }
-        });
-
-        // Rocket Launch Animation
-        document.getElementById('startAnalysis').addEventListener('click', function() {
-            const button = this;
-            const rocketIcon = button.querySelector('.rocket-icon');
-            
-            // Add launching class to trigger animation
-            button.classList.add('rocket-launching');
-            
-            // Create blur lines
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    const blurLine = document.createElement('div');
-                    blurLine.classList.add('blur-line');
-                    blurLine.style.top = `${Math.random() * 100}%`;
-                    blurLine.style.animationDelay = `${i * 0.1}s`;
-                    button.appendChild(blurLine);
-                    
-                    // Remove blur line after animation completes
-                    setTimeout(() => {
-                        if (blurLine.parentNode) {
-                            blurLine.parentNode.removeChild(blurLine);
-                        }
-                    }, 1000);
-                }, i * 100);
-            }
-            
-            // Redirect after animation completes
-            setTimeout(() => {
-                window.location.href = 'AIPSI.html';
-            }, 3000);
-        });
-
-        // Button Actions
-        document.getElementById('subsidyCalculatorBtn').addEventListener('click', function() {
-            window.location.href = 'Subsidy.html';
-        });
-
-        document.getElementById('applicationFlowBtn').addEventListener('click', function() {
-            window.location.href = 'process.html';
-        });
-
-        document.getElementById('loginBtn').addEventListener('click', function() {
-            alert('Redirecting to Login page...');
-        });
-
-        document.getElementById('registerBtn').addEventListener('click', function() {
-            alert('Redirecting to Registration page...');
-        });
-
-        // FLAME SPARKS ANIMATION - FIXED VERSION
-        let sparksActive = false;
-        let sparkInterval;
-
-        function createFlameSpark() {
-            if (!sparksActive) return;
-            
-            const spark = document.createElement('div');
-            spark.classList.add('flame-spark');
-            
-            // Randomly choose a flame color
-            const colors = ['flame-orange', 'flame-yellow', 'flame-red'];
-            const colorClass = colors[Math.floor(Math.random() * colors.length)];
-            spark.classList.add(colorClass);
-            
-            // Random starting position from left side
-            const startY = Math.random() * window.innerHeight;
-            spark.style.setProperty('--start-y', `${startY}px`);
-            
-            // Random ending position - fly across the screen
-            const endY = startY + (Math.random() * 100 - 50); // Slight vertical variation
-            spark.style.setProperty('--end-y', `${endY}px`);
-            
-            // Random animation duration
-            const duration = 1.5 + Math.random() * 1.5;
-            spark.style.animation = `flyToCenter ${duration}s ease-in forwards`;
-            
-            document.body.appendChild(spark);
-            
-            // Remove spark after animation completes
-            setTimeout(() => {
-                if (spark.parentNode) {
-                    spark.parentNode.removeChild(spark);
-                }
-            }, duration * 1000);
-            
-            return spark;
-        }
-
-        // Start generating sparks
-        function startSparks() {
-            sparksActive = true;
-            
-            // Clear any existing interval
-            if (sparkInterval) {
-                clearInterval(sparkInterval);
-            }
-            
-            // Create sparks more frequently
-            sparkInterval = setInterval(() => {
-                // Create multiple sparks at once
-                const sparkCount = 1 + Math.floor(Math.random() * 3);
-                for (let i = 0; i < sparkCount; i++) {
-                    setTimeout(() => createFlameSpark(), i * 100);
-                }
-            }, 300); // Create sparks every 300ms
-        }
-
-        // Stop generating sparks
-        function stopSparks() {
-            sparksActive = false;
-            if (sparkInterval) {
-                clearInterval(sparkInterval);
-                sparkInterval = null;
-            }
-        }
-
-        // Check if AI section is in view
-        function isAiSectionInView() {
-            const aiSection = document.getElementById('aiAnalysisSection');
-            if (!aiSection) return false;
-            
-            const rect = aiSection.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            
-            // Check if the section is in the viewport (with some margin)
-            return (
-                rect.top <= windowHeight * 0.9 &&
-                rect.bottom >= windowHeight * 0.1
-            );
-        }
-
-        // Handle scroll to trigger sparks
-        function handleScrollForSparks() {
-            if (isAiSectionInView()) {
-                if (!sparksActive) {
-                    console.log("Starting sparks - AI section in view");
-                    startSparks();
-                }
-            } else {
-                if (sparksActive) {
-                    console.log("Stopping sparks - AI section not in view");
-                    stopSparks();
-                }
-            }
-        }
-
-        // Initialize on page load
-        window.addEventListener('load', function() {
-            console.log("Page loaded, checking for AI section");
-            
-            // Initial check
-            handleScrollForSparks();
-            
-            // Listen for scroll
-            window.addEventListener('scroll', handleScrollForSparks);
-            
-            // Also check on resize
-            window.addEventListener('resize', handleScrollForSparks);
-        });
-
-        // Debug: Manual trigger for testing
-        window.debugSparks = function() {
-            console.log("Manual spark trigger");
-            startSparks();
-            setTimeout(stopSparks, 5000);
-        };
-
-        // Create a test button for debugging
-        const debugBtn = document.createElement('button');
-        debugBtn.textContent = 'Test Sparks';
-        debugBtn.style.position = 'fixed';
-        debugBtn.style.bottom = '20px';
-        debugBtn.style.left = '20px';
-        debugBtn.style.zIndex = '10000';
-        debugBtn.style.padding = '10px';
-        debugBtn.style.background = 'red';
-        debugBtn.style.color = 'white';
-        debugBtn.style.border = 'none';
-        debugBtn.style.borderRadius = '5px';
-        debugBtn.addEventListener('click', window.debugSparks);
-        document.body.appendChild(debugBtn);
+    })
+    .catch(error => {
+        formMessage.textContent = 'Sorry, there was an error. Please try again or contact us directly.';
+        formMessage.classList.remove('hidden', 'text-green-500');
+        formMessage.classList.add('text-red-500');
+    })
+    .finally(() => {
+        submitButton.innerHTML = 'Submit Request';
+        submitButton.disabled = false;
+    });
+});
     </script>
 </body>
 </html>
