@@ -1,0 +1,95 @@
+<!-- Replace the ENTIRE header.html content with this: -->
+<!-- Only include the actual header content, not the full HTML document -->
+<header class="hero-gradient text-white shadow-2xl">
+    <!-- Techno Lines -->
+    <div class="techno-lines">
+        <div class="techno-line"></div>
+        <div class="techno-line"></div>
+        <div class="techno-line"></div>
+        <div class="techno-line"></div>
+        <div class="techno-line"></div>
+        <div class="techno-line"></div>
+        <div class="techno-line"></div>
+        <div class="techno-line"></div>
+    </div>
+    
+    <!-- Solar Circuit Pattern -->
+    <div class="solar-circuit" id="solarCircuit"></div>
+    
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <i class="fas fa-solar-panel text-4xl text-yellow-500 solar-icon"></i>
+                <div>
+                    <h1 class="text-3xl font-bold">PM SURYA GHAR YOJANA</h1>
+                    <p class="text-sm opacity-90">Empowering India with Solar Energy</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    // Generate solar circuit pattern
+    function generateSolarCircuit() {
+        const circuitContainer = document.getElementById('solarCircuit');
+        const width = window.innerWidth;
+        const height = 200; // Approximate header height
+        
+        // Clear existing circuit
+        circuitContainer.innerHTML = '';
+        
+        // Create nodes
+        const nodes = [];
+        const nodeCount = 20;
+        
+        for (let i = 0; i < nodeCount; i++) {
+            const node = document.createElement('div');
+            node.className = 'circuit-node';
+            
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+            
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+            
+            circuitContainer.appendChild(node);
+            nodes.push({x, y, element: node});
+        }
+        
+        // Create connections between nearby nodes
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const nodeA = nodes[i];
+                const nodeB = nodes[j];
+                
+                const distance = Math.sqrt(
+                    Math.pow(nodeA.x - nodeB.x, 2) + 
+                    Math.pow(nodeA.y - nodeB.y, 2)
+                );
+                
+                // Only connect nodes that are relatively close
+                if (distance < 150) {
+                    const connection = document.createElement('div');
+                    connection.className = 'circuit-connection';
+                    
+                    const angle = Math.atan2(nodeB.y - nodeA.y, nodeB.x - nodeA.x);
+                    const length = distance;
+                    
+                    connection.style.width = `${length}px`;
+                    connection.style.height = '2px';
+                    connection.style.left = `${nodeA.x}px`;
+                    connection.style.top = `${nodeA.y}px`;
+                    connection.style.transform = `rotate(${angle}rad)`;
+                    connection.style.transformOrigin = '0 0';
+                    
+                    circuitContainer.appendChild(connection);
+                }
+            }
+        }
+    }
+
+    // Generate circuit on load and resize
+    window.addEventListener('load', generateSolarCircuit);
+    window.addEventListener('resize', generateSolarCircuit);
+</script>

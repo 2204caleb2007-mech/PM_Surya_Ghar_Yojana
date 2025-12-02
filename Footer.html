@@ -1,0 +1,33 @@
+<!-- Replace the ENTIRE footer.html content with this: -->
+<footer class="bg-navy text-white py-10">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <h2 class="text-2xl font-serif font-bold text-white">PM Surya Ghar Yojana</h2>
+                <p class="mt-2 text-gray-400">Empowering India with Solar Energy</p>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray hover:text-light-blue transition">Home</a>
+                <a href="AIPSI.html" class="text-gray hover:text-light-blue transition">Solar analysis</a>
+                <a href="Subsidy.html" class="text-gray hover:text-light-blue transition">Subsidy Calculator</a>
+                <a href="process.html" class="text-gray hover:text-light-blue transition">How it works</a>
+                <a href="contact.html" class="text-gray hover:text-light-blue transition">Contact</a>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 PM Surya Ghar Yojana. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Simple script for smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
