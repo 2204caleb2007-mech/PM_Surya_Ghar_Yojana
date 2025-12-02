@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Surya Ghar Yojana - Solar Subsidy Scheme</title>
+    <style>
+        :root {
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --header-bg: #1e40af;
+            --accent-color: #f59e0b;
+            --input-bg: #ffffff;
+            --input-text: #111827;
+            --input-border: #e5e7eb;
+        }
+
+        .dark-mode {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --header-bg: #1e3a8a;
+            --accent-color: #d97706;
+            --input-bg: #374151;
+            --input-text: #f9fafb;
+            --input-border: #4b5563;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .bg-white {
+            background-color: var(--bg-secondary);
+        }
+
+        .text-gray-700, .text-gray-600, .text-gray-500, .text-gray-400 {
+            color: var(--text-secondary);
+        }
+
+        .border-gray-300 {
+            border-color: var(--border-color);
+        }
+
+        .bg-gray-100 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-50 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-200 {
+            background-color: var(--border-color);
+        }
+
+        .bg-blue-800 {
+            background-color: var(--header-bg);
+        }
+
+        .bg-yellow-500 {
+            background-color: var(--accent-color);
+        }
+
+        /* Dark mode overrides */
+        .dark-mode .bg-white {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .bg-gray-50 {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode .bg-gray-100 {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .text-blue-800 {
+            color: #93c5fd !important;
+        }
+
+        .dark-mode .hover\:bg-gray-100:hover {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode header {
+            background: linear-gradient(135deg, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .dark-mode .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .input-field {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--input-border);
+        }
+
+        .input-label {
+            color: var(--text-primary);
+        }
+
+        .glowing-title {
+            background: linear-gradient(90deg, 
+                #00ffff, #33ffff, #66ffff, #e0ffff, 
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff, 
+                #00ffff, #33ffff, #66ffff, #e0ffff
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: colorShift 16s ease infinite, glowPulse 2s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 50%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glowPulse {
+            0% { 
+                transform: scale(1);
+            }
+            100% { 
+                transform: scale(1.02);
+            }
+        }
+
+        /* Simplified Pulsating Border Animation */
+        @keyframes pulsatingBorder {
+            0% {
+                box-shadow: 0 0 0 3px #ff0000;
+            }
+            50% {
+                box-shadow: 0 0 0 5px #00ffff;
+            }
+            100% {
+                box-shadow: 0 0 0 3px #ff0000;
+            }
+        }
+
+        .animated-border {
+            animation: pulsatingBorder 1.5s ease-in-out infinite;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .glow-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .glow-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+        }
+
+        .solar-icon {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .ai-analysis-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1));
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .quick-action-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .quick-action-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Rocket launch animation */
+        .rocket-launch {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rocket-icon {
+            transition: all 0.5s ease;
+        }
+
+        .rocket-launching .rocket-icon {
+            transform: scale(1.5) translateY(-10px);
+            filter: brightness(1.5);
+        }
+
+        .rocket-launching::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transform: translateX(-100%);
+            animation: thrust 0.5s ease-out;
+        }
+
+        @keyframes thrust {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .blur-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: blurLine 0.3s ease-out;
+        }
+
+        @keyframes blurLine {
+            0% { 
+                width: 0;
+                opacity: 0;
+            }
+            50% { 
+                width: 100%;
+                opacity: 1;
+            }
+            100% { 
+                width: 0;
+                opacity: 0;
+            }
+        }
+
+        /* New Styles for Hero Section */
+        .hero-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.85) 0%, rgba(59, 130, 246, 0.85) 50%, rgba(96, 165, 250, 0.85) 100%);
+        }
+
+        .hero-content-container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Flame sparks animation - FIXED */
+        .flame-spark {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+        }
+
+        .flame-orange {
+            background: linear-gradient(45deg, #ff8c00, #ff4500);
+            box-shadow: 0 0 15px 5px rgba(255, 69, 0, 0.9);
+        }
+
+        .flame-yellow {
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.9);
+        }
+
+        .flame-red {
+            background: linear-gradient(45deg, #ff4500, #ff0000);
+            box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.9);
+        }
+
+        @keyframes flyToCenter {
+            0% {
+                transform: translateX(-100px) translateY(var(--start-y)) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(var(--end-y)) rotate(180deg);
+                opacity: 0;
+                width: 6px;
+                height: 6px;
+            }
+        }
+
+        /* Main content spacing */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            background-color: var(--bg-primary);
+            margin-top: 100vh;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+    </div>
+
+    <!-- Hero Section with Fixed Background -->
+    <div class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content-container">
+            <div class="hero-content">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 glowing-title">Powering India's Solar Revolution</h2>
+                        <p class="text-xl md:text-2xl lg:text-3xl mb-8 text-white opacity-95">The PM Surya Ghar Yojana is a visionary scheme to provide free electricity to households through rooftop solar installations with substantial government subsidies.</p>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center">
+                        <div class="relative">
+                            <img src="https://placehold.co/600x400/1e40af/ffffff?text=PM+Surya+Ghar+Yojana" alt="PM Surya Ghar Yojana" class="rounded-2xl shadow-2xl w-full max-w-lg border-4 border-white/20">
+                            <div class="absolute -top-4 -right-4 bg-yellow-500 text-white p-3 rounded-full shadow-xl">
+                                <i class="fas fa-solar-panel text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <div id="header" class="relative z-10"></div>
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            });
+    </script>
+
+    <!-- Main Content -->
+    <main class="main-content container mx-auto px-4 py-8">
+        <!-- Scheme Description Section -->
+        <section class="mb-12">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 max-w-6xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-800 dark:text-white">About PM Surya Ghar Yojana</h2>
+                <div class="prose prose-lg max-w-none text-gray-700 dark:text-gray-300">
+                    <p class="mb-4">The PM Surya Ghar: Muft Bijli Yojana is a revolutionary scheme launched by the Government of India to promote the adoption of rooftop solar systems in residential households. This ambitious initiative aims to provide free electricity to up to 1 crore households who choose to install rooftop solar systems, while also offering substantial financial subsidies to make the transition affordable and accessible.</p>
+                    
+                    <p class="mb-4">Under this scheme, eligible households can receive subsidies of up to 60% of the installation cost, with a maximum subsidy of ₹78,000. The scheme is designed to not only reduce electricity bills for households but also contribute to India's renewable energy goals and environmental sustainability. By harnessing solar power, households can become self-reliant in their energy needs and even earn additional income by selling excess electricity back to the grid.</p>
+                    
+                    <p class="mb-4">The application process has been simplified through a centralized national portal that streamlines the entire process - from registration to installation and subsidy disbursement. The scheme also supports the development of a robust ecosystem for solar energy, creating employment opportunities for youth with technical skills in installation, manufacturing, and maintenance of solar panels.</p>
+                    
+                    <p class="mb-4">With an allocated budget of ₹75,021 crore, the PM Surya Ghar Yojana represents one of the world's largest rooftop solar programs. It aligns with India's commitment to reach 500 GW of renewable energy capacity by 2030 and achieve net-zero emissions by 2070. The scheme not only addresses energy access and affordability but also positions India as a global leader in the clean energy transition.</p>
+                    
+                    <p>Households interested in availing benefits under this scheme can register through the national portal, where they can also access a subsidy calculator, vendor information, and detailed guidelines. The scheme is expected to not only transform India's energy landscape but also empower households to become active participants in the country's sustainable development journey.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Analysis Section -->
+        <section class="mb-12 relative" id="aiAnalysisSection">
+            <div class="ai-analysis-box rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto relative z-10">
+                <h3 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">AI-Powered Solar Analysis</h3>
+                <p class="text-lg md:text-xl mb-8 text-gray-700 dark:text-gray-300">Our advanced AI system automatically verifies rooftop solar installations and checks eligibility for subsidies under the PM Surya Ghar Yojana scheme.</p>
+                <button id="startAnalysis" class="rocket-launch cta-button text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg relative overflow-hidden">
+                    <i class="fas fa-rocket rocket-icon mr-2"></i> Start AI Analysis
+                </button>
+            </div>
+        </section>
+
+        <!-- Quick Actions Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Quick Actions</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Subsidy Calculator Box -->
+                <div class="quick-action-box rounded-2xl p-8 text-center">
+                    <i class="fas fa-calculator text-5xl text-green-500 mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Subsidy Calculator</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">Calculate your potential savings and subsidy amount based on your location and energy needs.</p>
+                    <button id="subsidyCalculatorBtn" class="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition">
+                        <i class="fas fa-external-link-alt mr-2"></i> Open Calculator
+                    </button>
+                </div>
+                
+                <!-- Application Flowchart Box -->
+                <div class="quick-action-box rounded-2xl p-8 text-center">
+                    <i class="fas fa-project-diagram text-5xl text-blue-500 mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Application Process</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">Follow our step-by-step flowchart to understand how to apply for the PM Surya Ghar Yojana scheme.</p>
+                    <button id="applicationFlowBtn" class="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
+                        <i class="fas fa-external-link-alt mr-2"></i> View Flowchart
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scheme Benefits Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Scheme Benefits</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <div class="glow-box rounded-xl p-6 text-center">
+                    <i class="fas fa-home text-3xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">For Residential Users</h3>
+                    <p class="text-gray-700 dark:text-gray-300">Subsidies up to ₹78,000 for installing rooftop solar systems</p>
+                </div>
+                
+                <div class="glow-box rounded-xl p-6 text-center">
+                    <i class="fas fa-industry text-3xl text-green-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">For Commercial Users</h3>
+                    <p class="text-gray-700 dark:text-gray-300">Accelerated depreciation and tax benefits available</p>
+                </div>
+                
+                <div class="glow-box rounded-xl p-6 text-center">
+                    <i class="fas fa-bolt text-3xl text-yellow-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Free Electricity</h3>
+                    <p class="text-gray-700 dark:text-gray-300">Generate your own power and reduce electricity bills significantly</p>
+                </div>
+                
+                <div class="glow-box rounded-xl p-6 text-center">
+                    <i class="fas fa-chart-line text-3xl text-purple-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Income Opportunity</h3>
+                    <p class="text-gray-700 dark:text-gray-300">Sell excess electricity back to the grid and earn additional income</p>
+                </div>
+
+                <div class="glow-box rounded-xl p-6 text-center">
+                    <i class="fas fa-rupee-sign text-red-400 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Substantial Subsidies</h3>
+                    <p class="text-gray-700 dark:text-gray-300">Up to 60% subsidy on installation costs for eligible households</p>
+                </div>
+                <div class="glow-box rounded-xl p-6 text-center">
+                    <i class="fas fa-leaf text-emerald-400 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Green Energy</h3>
+                    <p class="text-gray-700 dark:text-gray-300">Contribute to India's renewable energy goals and a cleaner environment</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+   <div id="footer"></div>
+<script>
+    fetch('footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer').innerHTML = data;
+        });
+</script>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        }
+        
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Rocket Launch Animation
+        document.getElementById('startAnalysis').addEventListener('click', function() {
+            const button = this;
+            const rocketIcon = button.querySelector('.rocket-icon');
+            
+            // Add launching class to trigger animation
+            button.classList.add('rocket-launching');
+            
+            // Create blur lines
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const blurLine = document.createElement('div');
+                    blurLine.classList.add('blur-line');
+                    blurLine.style.top = `${Math.random() * 100}%`;
+                    blurLine.style.animationDelay = `${i * 0.1}s`;
+                    button.appendChild(blurLine);
+                    
+                    // Remove blur line after animation completes
+                    setTimeout(() => {
+                        if (blurLine.parentNode) {
+                            blurLine.parentNode.removeChild(blurLine);
+                        }
+                    }, 1000);
+                }, i * 100);
+            }
+            
+            // Redirect after animation completes
+            setTimeout(() => {
+                window.location.href = 'AIPSI.html';
+            }, 3000);
+        });
+
+        // Button Actions
+        document.getElementById('subsidyCalculatorBtn').addEventListener('click', function() {
+            window.location.href = 'Subsidy.html';
+        });
+
+        document.getElementById('applicationFlowBtn').addEventListener('click', function() {
+            window.location.href = 'process.html';
+        });
+
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            alert('Redirecting to Login page...');
+        });
+
+        document.getElementById('registerBtn').addEventListener('click', function() {
+            alert('Redirecting to Registration page...');
+        });
+
+        // FLAME SPARKS ANIMATION - FIXED VERSION
+        let sparksActive = false;
+        let sparkInterval;
+
+        function createFlameSpark() {
+            if (!sparksActive) return;
+            
+            const spark = document.createElement('div');
+            spark.classList.add('flame-spark');
+            
+            // Randomly choose a flame color
+            const colors = ['flame-orange', 'flame-yellow', 'flame-red'];
+            const colorClass = colors[Math.floor(Math.random() * colors.length)];
+            spark.classList.add(colorClass);
+            
+            // Random starting position from left side
+            const startY = Math.random() * window.innerHeight;
+            spark.style.setProperty('--start-y', `${startY}px`);
+            
+            // Random ending position - fly across the screen
+            const endY = startY + (Math.random() * 100 - 50); // Slight vertical variation
+            spark.style.setProperty('--end-y', `${endY}px`);
+            
+            // Random animation duration
+            const duration = 1.5 + Math.random() * 1.5;
+            spark.style.animation = `flyToCenter ${duration}s ease-in forwards`;
+            
+            document.body.appendChild(spark);
+            
+            // Remove spark after animation completes
+            setTimeout(() => {
+                if (spark.parentNode) {
+                    spark.parentNode.removeChild(spark);
+                }
+            }, duration * 1000);
+            
+            return spark;
+        }
+
+        // Start generating sparks
+        function startSparks() {
+            sparksActive = true;
+            
+            // Clear any existing interval
+            if (sparkInterval) {
+                clearInterval(sparkInterval);
+            }
+            
+            // Create sparks more frequently
+            sparkInterval = setInterval(() => {
+                // Create multiple sparks at once
+                const sparkCount = 1 + Math.floor(Math.random() * 3);
+                for (let i = 0; i < sparkCount; i++) {
+                    setTimeout(() => createFlameSpark(), i * 100);
+                }
+            }, 300); // Create sparks every 300ms
+        }
+
+        // Stop generating sparks
+        function stopSparks() {
+            sparksActive = false;
+            if (sparkInterval) {
+                clearInterval(sparkInterval);
+                sparkInterval = null;
+            }
+        }
+
+        // Check if AI section is in view
+        function isAiSectionInView() {
+            const aiSection = document.getElementById('aiAnalysisSection');
+            if (!aiSection) return false;
+            
+            const rect = aiSection.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Check if the section is in the viewport (with some margin)
+            return (
+                rect.top <= windowHeight * 0.9 &&
+                rect.bottom >= windowHeight * 0.1
+            );
+        }
+
+        // Handle scroll to trigger sparks
+        function handleScrollForSparks() {
+            if (isAiSectionInView()) {
+                if (!sparksActive) {
+                    console.log("Starting sparks - AI section in view");
+                    startSparks();
+                }
+            } else {
+                if (sparksActive) {
+                    console.log("Stopping sparks - AI section not in view");
+                    stopSparks();
+                }
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            console.log("Page loaded, checking for AI section");
+            
+            // Initial check
+            handleScrollForSparks();
+            
+            // Listen for scroll
+            window.addEventListener('scroll', handleScrollForSparks);
+            
+            // Also check on resize
+            window.addEventListener('resize', handleScrollForSparks);
+        });
+
+        // Debug: Manual trigger for testing
+        window.debugSparks = function() {
+            console.log("Manual spark trigger");
+            startSparks();
+            setTimeout(stopSparks, 5000);
+        };
+
+        // Create a test button for debugging
+        const debugBtn = document.createElement('button');
+        debugBtn.textContent = 'Test Sparks';
+        debugBtn.style.position = 'fixed';
+        debugBtn.style.bottom = '20px';
+        debugBtn.style.left = '20px';
+        debugBtn.style.zIndex = '10000';
+        debugBtn.style.padding = '10px';
+        debugBtn.style.background = 'red';
+        debugBtn.style.color = 'white';
+        debugBtn.style.border = 'none';
+        debugBtn.style.borderRadius = '5px';
+        debugBtn.addEventListener('click', window.debugSparks);
+        document.body.appendChild(debugBtn);
+    </script>
+</body>
+</html>
