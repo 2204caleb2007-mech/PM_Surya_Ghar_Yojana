@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - PM Surya Ghar Yojana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --header-bg: #1e40af;
+            --accent-color: #f59e0b;
+            --input-bg: #ffffff;
+            --input-text: #111827;
+            --input-border: #e5e7eb;
+        }
+
+        .dark-mode {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --header-bg: #1e3a8a;
+            --accent-color: #d97706;
+            --input-bg: #374151;
+            --input-text: #f9fafb;
+            --input-border: #4b5563;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--header-bg), #3b82f6, #60a5fa) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-footer {
+            background-color: #1f2937 !important;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .bg-white {
+            background-color: var(--bg-secondary);
+        }
+
+        .text-gray-700, .text-gray-600, .text-gray-500, .text-gray-400 {
+            color: var(--text-secondary);
+        }
+
+        .border-gray-300 {
+            border-color: var(--border-color);
+        }
+
+        .bg-gray-100 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-50 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-200 {
+            background-color: var(--border-color);
+        }
+
+        .bg-blue-800 {
+            background-color: var(--header-bg);
+        }
+
+        .bg-yellow-500 {
+            background-color: var(--accent-color);
+        }
+
+        .dark-mode .bg-white {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .bg-gray-50 {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode .bg-gray-100 {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .text-blue-800 {
+            color: #93c5fd !important;
+        }
+
+        .dark-mode .hover\:bg-gray-100:hover {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode header {
+            background: linear-gradient(135deg, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .dark-mode .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .input-field {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--input-border);
+        }
+
+        .input-label {
+            color: var(--text-primary);
+        }
+
+        .info-box {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .blue-button {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .blue-button:hover {
+            background-color: #2563eb;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Success and error message styles */
+        .message {
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Floating Home Button */
+        .floating-home-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 50;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .floating-home-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        .floating-home-btn i {
+            color: white;
+            font-size: 24px;
+        }
+
+        .floating-home-btn.pulse {
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 30px rgba(59, 130, 246, 0.8);
+            }
+            100% {
+                box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            }
+        }
+
+        /* Dark Mode Glowing Title */
+        .dark-mode .glowing-title {
+            background: linear-gradient(90deg, 
+                #00ffff, #33ffff, #66ffff, #e0ffff, 
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff, 
+                #00ffff, #33ffff, #66ffff, #e0ffff
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: colorShift 16s ease infinite, glowPulse 2s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        /* Solid color for light mode */
+        .light-title {
+            color: #0f4c75;
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 50%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glowPulse {
+            0% { 
+                transform: scale(1);
+            }
+            100% { 
+                transform: scale(1.02);
+            }
+        }
+
+        /* Pulsating Border Animation */
+        @keyframes pulsatingBorder {
+            0% {
+                box-shadow: 0 0 0 3px #ff0000;
+            }
+            50% {
+                box-shadow: 0 0 0 5px #00ffff;
+            }
+            100% {
+                box-shadow: 0 0 0 3px #ff0000;
+            }
+        }
+
+        .animated-border {
+            animation: pulsatingBorder 1.5s ease-in-out infinite;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        /* Chat styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .chat-message.sent {
+            background-color: #1e40af;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+
+        .chat-message.received {
+            background-color: #374151;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-message.system {
+            background-color: rgba(107, 114, 128, 0.2);
+            border-left: 4px solid #6c757d;
+            margin: 10px auto;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            color: #93c5fd;
+        }
+
+        .message-text {
+            color: #f9fafb;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: #d1d5db;
+            text-align: right;
+            margin-top: 0.3rem;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+
+        /* Hidden class for toggling */
+        .hidden {
+            display: none;
+        }
+
+        /* Make contact form message box non-adjustable */
+        #message {
+            resize: none;
+        }
+
+        /* Dark mode chat improvements */
+        .dark-mode .chat-messages {
+            background-color: #1a202c;
+            border-color: #4a5568;
+        }
+
+        .dark-mode .chat-message.sent {
+            background-color: #2d3748;
+            border: 1px solid #4a5568;
+        }
+
+        .dark-mode .chat-message.received {
+            background-color: #2d3748;
+            border: 1px solid #4a5568;
+        }
+
+        .dark-mode .message-sender {
+            color: #90cdf4;
+        }
+
+        .dark-mode .message-text {
+            color: #e2e8f0;
+        }
+
+        .dark-mode .message-time {
+            color: #a0aec0;
+        }
+
+        .dark-mode .chat-message.system {
+            background-color: rgba(74, 85, 104, 0.3);
+            color: #cbd5e0;
+        }
+
+        /* Fix dark text in dark mode */
+        .dark-mode .text-gray-600,
+        .dark-mode .text-gray-700,
+        .dark-mode .text-gray-500,
+        .dark-mode .text-gray-400 {
+            color: #d1d5db !important;
+        }
+
+        /* Contact info box text in dark mode */
+        .dark-mode .info-box p,
+        .dark-mode .info-box .text-gray-600 {
+            color: #e5e7eb !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+    </div>
+
+    <!-- Navigation Header -->
+    <div id="header"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Contact Section -->
+        <section id="contact" class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="text-center mb-8">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8 text-center light-title dark-mode:glowing-title" id="contactTitle">Get In Touch</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Our solar experts are ready to assist you with any questions about the PM Surya Ghar Yojana scheme, subsidy applications, or solar installation verification.</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-10">
+                <!-- Left Column - Contact Form -->
+                <div class="lg:w-1/2" id="contactFormContainer">
+                    <!-- Success and Error Messages -->
+                    <div id="successMessage" class="message success">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>Thank you for your message! We'll get back to you soon.</span>
+                    </div>
+                    <div id="errorMessage" class="message error">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <span>There was an error sending your message. Please try again.</span>
+                    </div>
+
+                    <!-- Loading Indicator -->
+                    <div id="loadingIndicator" class="loading">
+                        <i class="fas fa-spinner fa-spin text-blue-800 mr-2"></i>
+                        <span>Sending your message...</span>
+                    </div>
+                    
+                    <form id="contactForm" method="POST" action="https://formspree.io/f/xwpgqryb" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="firstName" class="block input-label mb-2">First Name</label>
+                                <input type="text" id="firstName" name="firstName" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 input-field" placeholder="Your first name" required>
+                            </div>
+                            <div>
+                                <label for="lastName" class="block input-label mb-2">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 input-field" placeholder="Your last name" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="email" class="block input-label mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 input-field" placeholder="Your email address" required>
+                        </div>
+                        <div>
+                            <label for="contactNo" class="block input-label mb-2">Contact Number</label>
+                            <input type="tel" id="contactNo" name="contactNo" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 input-field" placeholder="Your contact number" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block input-label mb-2">Message</label>
+                            <textarea id="message" name="message" rows="7" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 input-field" placeholder="Tell us how we can help you..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full blue-button text-white px-6 py-3 rounded-lg font-semibold transition">Send Message</button>
+                    </form>
+                </div>
+                
+                <!-- Right Column Container -->
+                <div class="lg:w-1/2" id="rightColumnContainer">
+                    <!-- Contact Information Box (Initially Visible) -->
+                    <div id="contactInfoBox" class="bg-gray-50 p-8 rounded-lg info-box h-full">
+                        <h3 class="text-2xl font-bold mb-6 section-header">Contact Our Solar Experts</h3>
+                        <p class="text-lg mb-6">Have questions about the PM Surya Ghar Yojana scheme or need assistance with solar installation verification? Our team is here to help.</p>
+                        
+                        <div class="flex flex-wrap gap-4 mb-8">
+                            <button id="openChatBtn" class="w-full blue-button text-white px-6 py-3 rounded-lg font-semibold transition">
+                                <i class="fas fa-envelope mr-2"></i> Chat with us (live)
+                            </button>
+                        </div>
+                         <div class="space-y-6">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-blue-800 mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold input-label">Our Office</h4>
+                                    <p class="text-gray-600">
+                                        AAA<br>
+                                        BBB<br>
+                                        CCC (to be updated yet)
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-phone text-blue-800 mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold input-label">Helpline</h4>
+                                    <p class="text-gray-600">(to be updated yet)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-blue-800 mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold input-label">Email</h4>
+                                    <p class="text-gray-600">(to be updated yet)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-blue-800 mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold input-label">Working Hours</h4>
+                                    <p class="text-gray-600">(to be updated yet)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Chat Container (Initially Hidden) -->
+                    <div id="liveChatContainer" class="hidden h-full">
+                        <div class="bg-white rounded-xl shadow-lg p-6 h-full flex flex-col">
+                            <div class="chat-container flex-grow">
+                                <div class="chat-messages" id="chatMessages">
+                                    <!-- Chat messages will appear here -->
+                                </div>
+                                <div class="chat-input mt-4">
+                                    <input type="text" id="chatInput" placeholder="Type your message...">
+                                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition" id="sendMessageBtn">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Navigation Footer -->
+    <div id="footer"></div>
+
+    <!-- Floating Home Button -->
+    <a href="index.html" class="floating-home-btn pulse">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script>
+        // Universal header/footer loader with XMLHttpRequest fallback
+        function loadHeaderAndFooter() {
+            // Function to load file (works with both local and server files)
+            function loadFile(elementId, filename) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', filename, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            document.getElementById(elementId).innerHTML = xhr.responseText;
+                            console.log(`${filename} loaded successfully`);
+                            
+                            // If loading header, initialize its scripts
+                            if (filename === 'header.html') {
+                                initializeHeaderScripts();
+                            }
+                        } else {
+                            console.error(`Error loading ${filename}: ${xhr.status}`);
+                            document.getElementById(elementId).innerHTML = 
+                                `<div style="color: #666; padding: 20px; text-align: center;">
+                                    ${filename} content (${xhr.status} error)
+                                </div>`;
+                        }
+                    }
+                };
+                xhr.send();
+            }
+            
+            // Load both files
+            loadFile('header', 'header.html');
+            loadFile('footer', 'footer.html');
+        }
+        
+        function initializeHeaderScripts() {
+            // Add solar circuit initialization here if needed
+            const circuitContainer = document.getElementById('solarCircuit');
+            if (circuitContainer) {
+                console.log('Solar circuit container found');
+                // Initialize your solar circuit animation here
+            }
+        }
+        
+        // Start loading when page loads
+        window.addEventListener('load', loadHeaderAndFooter);
+    </script>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const contactTitle = document.getElementById('contactTitle');
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+            contactTitle.classList.remove('light-title');
+            contactTitle.classList.add('glowing-title');
+        }
+        
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+                contactTitle.classList.remove('light-title');
+                contactTitle.classList.add('glowing-title');
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+                contactTitle.classList.remove('glowing-title');
+                contactTitle.classList.add('light-title');
+            }
+        });
+
+        // Contact Form Handling with Formspree
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const formData = new FormData(form);
+            const submitButton = form.querySelector('button[type="submit"]');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            // Show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Sending...';
+            loadingIndicator.style.display = 'block';
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            try {
+                // Send to Formspree
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    form.reset();
+                    
+                    // Scroll to message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // After successful submission, show live chat in right column
+                    setTimeout(() => {
+                        document.getElementById('contactInfoBox').classList.add('hidden');
+                        document.getElementById('liveChatContainer').classList.remove('hidden');
+                        initializeLiveChat();
+                    }, 1500);
+                } else {
+                    // Show error message
+                    errorMessage.style.display = 'block';
+                    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } finally {
+                // Reset button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Send Message';
+                loadingIndicator.style.display = 'none';
+            }
+        });
+
+        // Live Chat Functionality with Ably
+        const ABLY_API_KEY = 'WrCMRQ.gTGkgw:IYmWNaws9SwA7LZRDRSI3fGCNfkSwR1gl3lpCL92OUk';
+        let ably;
+        let channel;
+
+        // Username management for chat
+        function getUsername() {
+            let username = localStorage.getItem('chatUsername');
+            if (!username) {
+                username = `User${Math.floor(Math.random() * 1000)}`;
+                localStorage.setItem('chatUsername', username);
+            }
+            return username;
+        }
+
+        function setUsername(newUsername) {
+            if (newUsername && newUsername.trim()) {
+                localStorage.setItem('chatUsername', newUsername.trim());
+                return true;
+            }
+            return false;
+        }
+
+        // Initialize live chat
+        async function initializeLiveChat() {
+            try {
+                // Initialize Ably
+                ably = new Ably.Realtime(ABLY_API_KEY);
+                
+                // Get the channel for chat
+                channel = ably.channels.get('solar-expert-chat');
+                
+                // Subscribe to messages
+channel.subscribe('message', (message) => {
+    const data = message.data;
+    const myUsername = getUsername();
+    
+    // Don't show messages from yourself (they're already in the UI)
+    if (data.sender !== myUsername) {
+        addChatMessage(data.sender, data.message, data.time, "received");
+    }
+});
+                // Set up connection event listeners
+                ably.connection.on('connected', () => {
+                    console.log('Connected to Ably!');
+                    addSystemMessage('Connected to live chat with solar experts');
+                    
+                    // Removed automated welcome message
+                });
+                
+                ably.connection.on('failed', () => {
+                    addSystemMessage('Connection failed - using offline mode');
+                });
+                
+                // Load message history (last 20 messages)
+                try {
+                    const history = await channel.history({ limit: 20 });
+                    history.items.forEach((message) => {
+                        const data = message.data;
+                        addChatMessage(data.sender, data.message, data.time, data.type);
+                    });
+                } catch (historyError) {
+                    console.log('No chat history available');
+                }
+                
+            } catch (error) {
+                console.error('Error initializing Ably:', error);
+                addSystemMessage('Chat initialization failed - using offline mode');
+                // Removed demo messages
+            }
+        }
+
+        // Add a system message
+        function addSystemMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message system';
+            messageDiv.innerHTML = `
+                <div class="message-text" style="text-align: center; color: var(--text-secondary); font-style: italic;">${message}</div>
+                <div class="message-time" style="text-align: center;">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Add a chat message to the UI
+        function addChatMessage(sender, message, time, type = "received") {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${type}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-sender">${sender}</div>
+                <div class="message-text">${message}</div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+// Send a new message
+function sendChatMessage() {
+    const chatInput = document.getElementById('chatInput');
+    const message = chatInput.value.trim();
+    
+    if (message) {
+        const now = new Date();
+        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        // Create message object
+        const messageData = {
+            sender: getUsername(),
+            message: message,
+            time: time,
+            type: "sent",
+            timestamp: now.getTime()
+        };
+        
+        // Clear input immediately
+        chatInput.value = '';
+        
+        // Add to UI immediately
+        addChatMessage(messageData.sender, messageData.message, messageData.time, messageData.type);
+        
+        // Publish to Ably
+        if (channel) {
+            channel.publish('message', messageData, (err) => {
+                if (err) {
+                    console.error('Error sending message:', err);
+                    addSystemMessage('Failed to send message - check connection');
+                }
+                // Removed automated expert responses
+            });
+        } else {
+            addSystemMessage('Not connected - message not sent to experts');
+        }
+    }
+}
+
+        // Toggle between contact info and chat (in right column)
+        document.getElementById('openChatBtn').addEventListener('click', function() {
+            document.getElementById('contactInfoBox').classList.add('hidden');
+            document.getElementById('liveChatContainer').classList.remove('hidden');
+            initializeLiveChat();
+        });
+
+        // Chat event listeners
+        document.getElementById('sendMessageBtn').addEventListener('click', sendChatMessage);
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+
+        // Show messages from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const message = urlParams.get('message');
+
+        if (status && message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = status === 'success' ? 'message success' : 'message error';
+            messageDiv.innerHTML = `<i class="fas ${status === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'} mr-2"></i><span>${decodeURIComponent(message)}</span>`;
+            
+            // Insert at the top of the form
+            const form = document.getElementById('contactForm');
+            form.parentNode.insertBefore(messageDiv, form);
+            
+            // Scroll to message
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>

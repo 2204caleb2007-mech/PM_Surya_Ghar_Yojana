@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Process - PM Surya Ghar Yojana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --header-bg: #1e40af;
+            --accent-color: #f59e0b;
+            --input-bg: #ffffff;
+            --input-text: #111827;
+            --input-border: #e5e7eb;
+        }
+
+        .dark-mode {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --header-bg: #1e3a8a;
+            --accent-color: #d97706;
+            --input-bg: #374151;
+            --input-text: #f9fafb;
+            --input-border: #4b5563;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--header-bg), #3b82f6, #60a5fa) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-footer {
+            background-color: #1f2937 !important;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .bg-white {
+            background-color: var(--bg-secondary);
+        }
+
+        .text-gray-700, .text-gray-600, .text-gray-500, .text-gray-400 {
+            color: var(--text-secondary);
+        }
+
+        .border-gray-300 {
+            border-color: var(--border-color);
+        }
+
+        .bg-gray-100 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-50 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-200 {
+            background-color: var(--border-color);
+        }
+
+        .bg-blue-800 {
+            background-color: var(--header-bg);
+        }
+
+        .bg-yellow-500 {
+            background-color: var(--accent-color);
+        }
+
+        /* Dark mode overrides */
+        .dark-mode .bg-white {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .bg-gray-50 {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode .bg-gray-100 {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .text-blue-800 {
+            color: #93c5fd !important;
+        }
+
+        .dark-mode .hover\:bg-gray-100:hover {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode header {
+            background: linear-gradient(135deg, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .dark-mode .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .input-field {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--input-border);
+        }
+
+        .input-label {
+            color: var(--text-primary);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+        }
+
+        .solar-icon {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .flowchart-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .flow-step {
+            position: relative;
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            background-color: #3b82f6;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-connector {
+            position: absolute;
+            left: 50%;
+            bottom: -40px;
+            width: 2px;
+            height: 40px;
+            background-color: #3b82f6;
+            transform: translateX(-50%);
+        }
+
+        .step-connector::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #3b82f6;
+        }
+
+        .step-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #3b82f6;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .flow-step {
+                padding: 15px;
+            }
+            
+            .step-number {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+            
+            .step-title {
+                font-size: 16px;
+            }
+        }
+
+        .floating-home-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3b82f6;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .floating-home-btn:hover {
+            background: #2563eb;
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .floating-home-btn.pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .dark-heading {
+    color: var(--text-primary);
+}
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+    </div>
+
+<!-- Navigation Header -->
+<div id="header"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Page Title -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-800 dark:text-gray-800 mb-4">Solar Analysis Process</h1>
+            <p class="text-xl text-blue-800 dark:text-gray-800 max-w-3xl mx-auto">
+                Follow these 6 simple steps to analyze solar panel installations using our AI technology.
+            </p>
+        </div>
+
+        <!-- Flowchart Section -->
+        <section class="mb-12">
+            <div class="flowchart-container text-center">
+                <!-- Step 1 -->
+                <div class="flow-step">
+                    <div class="step-number">01</div>
+                    <div class="flex items-start">
+                        <i class="fas fa-map-marker-alt step-icon"></i>
+                        <div class="step-content">
+                            <h3 class="step-title">Select Location on Map</h3>
+                            <p class="step-description">Choose location via map click or search. Coordinates auto-filled with address display.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flow-step">
+                    <div class="step-number">02</div>
+                    <div class="flex items-start">
+                        <i class="fas fa-crosshairs step-icon"></i>
+                        <div class="step-content">
+                            <h3 class="step-title">Use Selected Coordinates</h3>
+                            <p class="step-description">Transfer lat/long to input fields. Sample ID generated automatically from coordinates.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flow-step">
+                    <div class="step-number">03</div>
+                    <div class="flex items-start">
+                        <i class="fas fa-search step-icon"></i>
+                        <div class="step-content">
+                            <h3 class="step-title">Initiate AI Analysis</h3>
+                            <p class="step-description">Start analysis with 1200 sq.ft radius scan. AI processes satellite imagery automatically.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flow-step">
+                    <div class="step-number">04</div>
+                    <div class="flex items-start">
+                        <i class="fas fa-satellite step-icon"></i>
+                        <div class="step-content">
+                            <h3 class="step-title">View 3D Satellite Results</h3>
+                            <p class="step-description">Interactive 3D view with controls. Altitude, tilt, and imagery details displayed.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="flow-step">
+                    <div class="step-number">05</div>
+                    <div class="flex items-start">
+                        <i class="fas fa-chart-bar step-icon"></i>
+                        <div class="step-content">
+                            <h3 class="step-title">Review Analysis Summary</h3>
+                            <p class="step-description">Panel detection, count, area, capacity results. Confidence score and QC status shown.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="flow-step">
+                    <div class="step-number">06</div>
+                    <div class="flex items-start">
+                        <i class="fas fa-download step-icon"></i>
+                        <div class="step-content">
+                            <h3 class="step-title">Download/Save Results</h3>
+                            <p class="step-description">Download JSON report or save to database. Start new analysis or view details.</p>
+                        </div>
+                    </div>
+                </div>
+                <button id="startApplication" class="bg-white text-blue-800 px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-play-circle mr-2"></i> Start Analysis Now
+                </button>
+            </div>
+        </section>
+    </main>
+
+<!-- Navigation Footer -->
+<div id="footer"></div>
+
+    <script>
+        // Universal header/footer loader with XMLHttpRequest fallback
+        function loadHeaderAndFooter() {
+            // Function to load file (works with both local and server files)
+            function loadFile(elementId, filename) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', filename, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            document.getElementById(elementId).innerHTML = xhr.responseText;
+                            console.log(`${filename} loaded successfully`);
+                            
+                            // If loading header, initialize its scripts
+                            if (filename === 'header.html') {
+                                initializeHeaderScripts();
+                            }
+                        } else {
+                            console.error(`Error loading ${filename}: ${xhr.status}`);
+                            document.getElementById(elementId).innerHTML = 
+                                `<div style="color: #666; padding: 20px; text-align: center;">
+                                    ${filename} content (${xhr.status} error)
+                                </div>`;
+                        }
+                    }
+                };
+                xhr.send();
+            }
+            
+            // Load both files
+            loadFile('header', 'header.html');
+            loadFile('footer', 'footer.html');
+        }
+        
+        function initializeHeaderScripts() {
+            // Add solar circuit initialization here if needed
+            const circuitContainer = document.getElementById('solarCircuit');
+            if (circuitContainer) {
+                console.log('Solar circuit container found');
+                // Initialize your solar circuit animation here
+            }
+        }
+        
+        // Start loading when page loads
+        window.addEventListener('load', loadHeaderAndFooter);
+    </script>
+
+    <!-- Floating Home Button -->
+    <a href="dex.html" class="floating-home-btn pulse">
+        <i class="fas fa-home"></i>
+    </a>
+    
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        }
+        
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Button Actions
+        document.getElementById('startApplication').addEventListener('click', function() {
+            window.location.href = 'AIPSI.html';
+        });
+    </script>
+</body>
+</html>

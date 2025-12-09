@@ -1,0 +1,42 @@
+app:
+  debug: true
+  host: "0.0.0.0"
+  port: 5000
+  secret_key: "your-secret-key-here"
+
+ml_models:
+  solar_analyzer:
+    model_path: "model_weights/solar_analyzer.pth"
+    input_size: [512, 512]
+    confidence_threshold: 0.85
+    
+  power_predictor:
+    model_path: "model_weights/power_predictor.pth"
+    
+  segmentation_model:
+    model_path: "model_weights/segmentation_model.pth"
+    architecture: "Unet"
+    encoder: "resnet34"
+    
+  soiling_analyzer:
+    model_path: "model_weights/soiling_analyzer.pth"
+
+satellite:
+  api_key: "your-arcgis-api-key"
+  imagery_source: "sentinel-2"
+  max_cloud_cover: 0.3
+
+database:
+  type: "sqlite"
+  path: "data/solar_analysis.db"
+
+paths:
+  uploads: "data/uploads"
+  processed: "data/processed"
+  cache: "data/cache"
+  logs: "logs"
+
+analysis:
+  search_radius_m: 50
+  min_panel_area_sqm: 1.0
+  confidence_threshold: 0.7

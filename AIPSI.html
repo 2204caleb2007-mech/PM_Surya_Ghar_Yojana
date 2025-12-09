@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Surya Ghar Yojana - Solar Installation Verifier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.30/"></script>
+    <style>
+        /* Use same font-family as index.html */
+        * {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --header-bg: #1e40af;
+            --accent-color: #f59e0b;
+            --input-bg: #ffffff;
+            --input-text: #111827;
+            --input-border: #d1d5db;
+            --card-bg: #ffffff;
+            --hover-bg: #f3f4f6;
+        }
+
+        .dark-mode {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --header-bg: #1e3a8a;
+            --accent-color: #d97706;
+            --input-bg: #374151;
+            --input-text: #f9fafb;
+            --input-border: #4b5563;
+            --card-bg: #1f2937;
+            --hover-bg: #374151;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--header-bg), #3b82f6, #60a5fa) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-footer {
+            background-color: #1f2937 !important;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .bg-white {
+            background-color: var(--card-bg);
+        }
+
+        .text-gray-700, .text-gray-600, .text-gray-500, .text-gray-400 {
+            color: var(--text-secondary);
+        }
+
+        .border-gray-300 {
+            border-color: var(--border-color);
+        }
+
+        .bg-gray-100 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-50 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-200 {
+            background-color: var(--border-color);
+        }
+
+        .bg-blue-800 {
+            background-color: var(--header-bg);
+        }
+
+        .bg-yellow-500 {
+            background-color: var(--accent-color);
+        }
+
+        .map-container {
+            height: 400px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .search-container {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            padding: 12px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+        
+        .suggestions-container {
+            position: absolute;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 11;
+            left: 0;
+            margin-top: 5px;
+        }
+        
+        .suggestion-item {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .suggestion-item:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        .esri-ui-top-right {
+            display: none;
+        }
+
+        .scene-view-container {
+            height: 100%;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .esri-ui-top-left, .esri-ui-top-right {
+            display: none !important;
+        }
+
+        .analysis-marker {
+            background-color: rgba(255, 255, 0, 0.7);
+            border: 2px solid #ff0000;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* 3D Map Controls */
+        .scene-controls {
+            position: absolute;
+            top: 80px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .scene-control-btn {
+            background: var(--card-bg);
+            border: none;
+            border-radius: 4px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .scene-control-btn:hover {
+            background: var(--hover-bg);
+            transform: scale(1.05);
+        }
+        
+        .scene-control-btn i {
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+        
+        .scene-control-btn.active {
+            background: #007cff;
+        }
+        
+        .scene-control-btn.active i {
+            color: white;
+        }
+        
+        /* Disable interactions during animation */
+        .scene-view-container.animating {
+            pointer-events: none;
+        }
+        
+        .scene-view-container.animating::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+            z-index: 5;
+        }
+
+        /* Dark mode overrides */
+        .dark-mode .bg-white {
+            background-color: var(--card-bg) !important;
+        }
+
+        .dark-mode .bg-gray-50 {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode .bg-gray-100 {
+            background-color: var(--hover-bg) !important;
+        }
+
+        .dark-mode .text-blue-800 {
+            color: #93c5fd !important;
+        }
+
+        .dark-mode .hover\:bg-gray-100:hover {
+            background-color: var(--hover-bg) !important;
+        }
+
+        .dark-mode header {
+            background: linear-gradient(135deg, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .dark-mode .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Input styling */
+        .input-field {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--input-border);
+        }
+
+        .input-label {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .qc-tick {
+            color: #3b82f6;
+        }
+
+        .qc-item {
+            background-color: var(--hover-bg);
+        }
+
+        .qc-summary {
+            background-color: var(--hover-bg);
+            border-color: var(--border-color);
+        }
+
+        .qc-summary-text {
+            color: var(--text-primary);
+        }
+
+        .result-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .info-box {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .section-header {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .blue-button {
+            background-color: #2563eb;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .blue-button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        /* Glowing title only in dark mode */
+.dark-mode .glowing-title {
+    background: linear-gradient(90deg, 
+        #00ffff, #33ffff, #66ffff, #e0ffff, 
+        #00ffff, #33ffff, #66ffff, #e0ffff,
+        #00ffff, #33ffff, #66ffff, #e0ffff,
+        #00ffff, #33ffff, #66ffff, #e0ffff,
+        #00ffff, #33ffff, #66ffff, #e0ffff, 
+        #00ffff, #33ffff, #66ffff, #e0ffff
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-clip: text;
+    animation: colorShift 16s ease infinite;
+    position: relative;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+        /* Light mode title - no glowing */
+        .light-mode-title {
+            color: #1e40af !important;
+            font-weight: 800;
+        }
+
+        .dark-mode h2.glowings-title {
+    color: transparent !important;
+}
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 50%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Card styling without glowing borders */
+        .analysis-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .analysis-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* Button styling */
+        .primary-button {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Results section styling */
+        .results-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .value-display {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Form styling */
+        .form-input {
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-primary);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Status colors */
+        .status-verified {
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .status-partial {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+
+        .status-not-verified {
+            color: #ef4444;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+    </div>
+
+<!-- Navigation Header -->
+<div id="header"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- AI Analysis Section -->
+        <section id="aiAnalysisSection" class="analysis-card p-6 mb-12">
+            <div class="text-center mb-8">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8 text-center glowing-title light-mode-title" id="mainTitle">AI-Powered Solar Analysis</h2>
+            </div>          
+            
+            <!-- First row: Input Data | Select Location -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8" id="initialSections">
+                <!-- Input Data Section -->
+                <div class="analysis-card p-6">
+                    <div class="text-2xl font-bold mb-6 px-4 py-3 text-center section-header bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg">
+                        Input Data
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block input-label mb-2" for="sampleId">Sample ID</label>
+                            <input type="text" id="sampleId" class="w-full form-input" placeholder="Will be auto-generated" readonly>
+                        </div>
+                        
+                        <div>
+                            <label class="block input-label mb-2" for="latitude">Latitude</label>
+                            <input type="number" step="any" id="latitude" class="w-full form-input" placeholder="e.g., 12.9716">
+                        </div>
+                        <div>
+                            <label class="block input-label mb-2" for="longitude">Longitude</label>
+                            <input type="number" step="any" id="longitude" class="w-full form-input" placeholder="e.g., 77.5946">
+                        </div>
+                        
+                        <div>
+                            <label class="block input-label mb-2">Search Buffer</label>
+                            <input type="text" class="w-full form-input" readonly value="1200 sq.ft radius">
+                        </div>
+                        
+                        <div>
+                            <label class="block input-label mb-2" for="csvUpload">Upload CSV File (Optional)</label>
+                            <input type="file" id="csvUpload" class="w-full form-input" accept=".csv">
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">CSV should contain columns: sample_id, latitude, longitude</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-4 mt-6">
+                        <button id="useSelectedLocation" class="primary-button text-white px-4 py-3 rounded-lg font-semibold transition flex items-center justify-center">
+                            <i class="fas fa-check mr-2"></i> Use Selected Location
+                        </button>
+
+                        <button id="analyzeLocation" class="primary-button text-white px-6 py-3 rounded-lg font-semibold transition flex items-center justify-center">
+                            <i class="fas fa-search mr-2"></i> Analyze Location
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Select Location Section -->
+                <div class="analysis-card p-6 lg:col-span-2">
+                    <div class="text-2xl font-bold mb-6 px-4 py-3 text-center section-header bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg">
+                        Select Location
+                    </div>
+                    <div class="p-4">
+                        <div id="mapContainer" class="map-container relative">
+                            <div id="viewDiv" class="h-full w-full"></div>
+                            <div class="search-container">
+                                <input type="text" class="search-input" id="searchInput" placeholder="Search location..." />
+                                <div id="suggestionsContainer" class="suggestions-container hidden"></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block input-label mb-2">Selected Latitude:</label>
+                                <div id="selectedLatitude" class="w-full form-input">-</div>
+                            </div>
+                            <div>
+                                <label class="block input-label mb-2">Selected Longitude:</label>
+                                <div id="selectedLongitude" class="w-full form-input">-</div>
+                            </div>
+                        </div>
+                        <!-- Address Display -->
+                        <div class="mt-4">
+                            <label class="block input-label mb-2">Address:</label>
+                            <div id="selectedAddress" class="w-full form-input min-h-12">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Solar Panel Detector Title (Hidden Initially) -->
+            <div id="solarPanelDetectorTitle" class="hidden text-center mb-8">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8 text-center glowing-title light-mode-title" id="mainTitle">Solar Panel Detector</h2>
+            </div>
+            
+            <!-- Second row: Analysis Results | 3D Satellite View (Hidden Initially) -->
+            <div id="resultsSections" class="hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Analysis Results Section -->
+                    <div class="analysis-card p-6">
+                        <div class="text-2xl font-bold mb-6 px-4 py-3 text-center section-header bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg">
+                            Analysis Results
+                        </div>
+                        <div class="p-4">
+                            <div id="analysisPreview" class="space-y-6">
+                                <div class="text-center py-8">
+                                    <i class="fas fa-solar-panel text-5xl mb-4 text-blue-500"></i>
+                                    <p class="text-lg font-medium input-label">Solar panel analysis completed</p>
+                                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Results are ready for review</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D Satellite View Section -->
+                    <div class="analysis-card p-6 lg:col-span-2">
+                        <div class="text-2xl font-bold mb-6 px-4 py-3 text-center section-header bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg">
+                            3D Satellite View
+                        </div>
+                        <div class="p-4">
+                            <div id="satellite3dContainer" class="bg-gray-800 h-96 rounded-lg relative overflow-hidden">
+                                <div id="sceneViewDiv" class="w-full h-full"></div>
+                                
+                                <!-- 3D Visualization Controls -->
+                                <div class="scene-controls">
+                                    <!-- Compass/Reset Orientation -->
+                                    <button id="compassTool" class="scene-control-btn" title="Reset North">
+                                        <i class="fas fa-compass"></i>
+                                    </button>
+                                    
+                                    <!-- Reset 3D View -->
+                                    <button id="reset3dView" class="scene-control-btn" title="Reset View">
+                                        <i class="fas fa-home"></i>
+                                    </button>
+                                    
+                                    <!-- Reset Tilt -->
+                                    <button id="resetTilt" class="scene-control-btn" title="Reset Tilt">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="absolute top-4 left-4 bg-black bg-opacity-70 text-white px-3 py-2 rounded-lg text-sm">
+                                    <div>Altitude: <span id="altitudeValue">0 m</span></div>
+                                    <div>Tilt: <span id="tiltValue">0°</span></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block input-label mb-2">Imagery Source</label>
+                                    <input type="text" class="w-full form-input" readonly value="World Imagery">
+                                </div>
+                                <div>
+                                    <label class="block input-label mb-2">Resolution</label>
+                                    <input type="text" class="w-full form-input" readonly value="30cm">
+                                </div>
+                                <div>
+                                    <label class="block input-label mb-2">3D Buildings</label>
+                                    <input type="text" class="w-full form-input" readonly value="Enabled">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- View Detailed Results Button -->
+<div class="text-center my-8">
+    <button id="viewDetailedResults" class="primary-button text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg">
+        <i class="fas fa-chart-bar mr-3"></i> View Detailed Results / Download Results
+    </button>
+</div>
+            </div>
+            
+            <!-- Detailed Results Section (Hidden Initially) -->
+            <div id="detailedResults" class="hidden">
+                <!-- Detailed Results Title -->
+                <div class="text-center mb-8">
+                    <h2 class="text-5xl md:text-6xl font-bold mb-8 text-center glowing-title light-mode-title" id="mainTitle">Detailed Results</h2>
+                </div>
+                
+                <!-- ANALYSIS RESULTS section -->
+                <div class="analysis-card p-6 mb-8">
+                    <div class="text-2xl font-bold mb-6 px-4 py-3 text-center section-header bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg">
+                        Analysis Summary
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- First Column -->
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center py-4 px-5 results-box min-h-[80px]">
+                                    <span class="input-label font-medium">Solar Panels Detected:</span>
+                                    <span id="hasSolarResult" class="value-display status-verified">Yes</span>
+                                </div>
+                                
+                                <div class="flex justify-between items-center py-4 px-5 results-box min-h-[80px]">
+                                    <span class="input-label font-medium">Estimated Panel Count:</span>
+                                    <span id="panelCountResult" class="value-display">5</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Second Column -->
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center py-4 px-5 results-box min-h-[80px]">
+                                    <span class="input-label font-medium">Confidence Score:</span>
+                                    <span id="confidenceResult" class="value-display">0.96</span>
+                                </div>
+                                
+                                <div class="flex justify-between items-center py-4 px-5 results-box min-h-[80px]">
+                                    <span class="input-label font-medium">Estimated PV Area:</span>
+                                    <span id="pvAreaResult" class="value-display">9.6 m²</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Third Column -->
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center py-4 px-5 results-box min-h-[80px]">
+                                    <span class="input-label font-medium">Estimated Capacity:</span>
+                                    <span id="capacityResult" class="value-display">2 kW</span>
+                                </div>
+                                
+                                <div class="flex justify-between items-center py-4 px-5 results-box min-h-[80px]">
+                                    <span class="input-label font-medium">QC Status:</span>
+                                    <span id="qcStatusResult" class="value-display status-verified">VERIFIABLE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quality Control Notes and JSON Output side by side -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- QUALITY CONTROL NOTES section -->
+                    <div class="analysis-card p-6">
+                        <div class="text-2xl font-bold mb-6 px-4 py-3 text-center section-header bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg">
+                            Quality Control Notes
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <ul id="qcNotesList" class="space-y-3">
+                                    <li class="flex items-start qc-item p-3 rounded-lg">
+                                        <i class="fas fa-check-circle qc-tick mt-1 mr-3 text-lg"></i>
+                                        <span class="input-label font-medium">Clear roof view within 1200 sq.ft radius</span>
+                                    </li>
+                                    <li class="flex items-start qc-item p-3 rounded-lg">
+                                        <i class="fas fa-check-circle qc-tick mt-1 mr-3 text-lg"></i>
+                                        <span class="input-label font-medium">Distinct solar module patterns detected</span>
+                                    </li>
+                                    <li class="flex items-start qc-item p-3 rounded-lg">
+                                        <i class="fas fa-check-circle qc-tick mt-1 mr-3 text-lg"></i>
+                                        <span class="input-label font-medium">Consistent panel alignment and spacing</span>
+                                    </li>
+                                </ul>
+                                <div class="qc-summary p-4 rounded-lg border mt-4">
+                                    <h6 class="font-semibold qc-summary-text mb-2 flex items-center">
+                                        <i class="fas fa-info-circle mr-2"></i>
+                                        Analysis Summary
+                                    </h6>
+                                    <p class="text-sm qc-summary-text">The satellite scan successfully identified solar panel installation with high confidence. All quality metrics meet verification standards.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- JSON OUTPUT section -->
+                    <div class="analysis-card p-6">
+                        <div class="text-2xl font-bold mb-6 px-4 py-3 text-center section-header bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg">
+                            JSON Output
+                        </div>
+                        <div class="p-6">
+                            <pre id="jsonOutput" class="text-sm overflow-auto max-h-60 bg-gray-800 p-4 rounded-lg text-white">
+{
+    "sample_id": "1234",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "has_solar": true,
+    "confidence": 0.96,
+    "panel_count_est": 5,
+    "pv_area_sqm_est": 9.6,
+    "capacity_kw_est": 2,
+    "qc_status": "VERIFIABLE",
+    "qc_notes": ["clear roof view", "distinct module grid", "mounting shadows"],
+    "bbox_or_mask": "",
+    "image_metadata": {"source": "Satellite Imagery", "capture_date": "2023-10-15"}
+}
+                            </pre>
+                            <button id="downloadJson" class="mt-4 primary-button text-white px-6 py-3 rounded-lg font-semibold transition w-full">
+                                <i class="fas fa-download mr-2"></i> Download JSON
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-between gap-4 mt-8">
+                    <button id="newAnalysis" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-8 py-3 rounded-xl font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition flex items-center justify-center">
+                        <i class="fas fa-redo mr-3"></i> New Analysis
+                    </button>
+                    <button id="saveToDatabase" class="primary-button text-white px-8 py-3 rounded-xl font-semibold transition flex items-center justify-center">
+                        <i class="fas fa-save mr-3"></i> Save to Database
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<!-- Navigation Footer -->
+<div id="footer"></div>
+
+    <script>
+        // Universal header/footer loader with XMLHttpRequest fallback
+        function loadHeaderAndFooter() {
+            // Function to load file (works with both local and server files)
+            function loadFile(elementId, filename) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', filename, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            document.getElementById(elementId).innerHTML = xhr.responseText;
+                            console.log(`${filename} loaded successfully`);
+                            
+                            // If loading header, initialize its scripts
+                            if (filename === 'header.html') {
+                                initializeHeaderScripts();
+                            }
+                        } else {
+                            console.error(`Error loading ${filename}: ${xhr.status}`);
+                            document.getElementById(elementId).innerHTML = 
+                                `<div style="color: #666; padding: 20px; text-align: center;">
+                                    ${filename} content (${xhr.status} error)
+                                </div>`;
+                        }
+                    }
+                };
+                xhr.send();
+            }
+            
+            // Load both files
+            loadFile('header', 'header.html');
+            loadFile('footer', 'footer.html');
+        }
+        
+        function initializeHeaderScripts() {
+            // Add solar circuit initialization here if needed
+            const circuitContainer = document.getElementById('solarCircuit');
+            if (circuitContainer) {
+                console.log('Solar circuit container found');
+                // Initialize your solar circuit animation here
+            }
+        }
+        
+        // Start loading when page loads
+        window.addEventListener('load', loadHeaderAndFooter);
+    </script>
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        }
+        
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+                // Update map basemap for dark mode
+                if (mapView && mapView.map) {
+                    mapView.map.basemap = "dark-gray-vector";
+                }
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+                // Update map basemap for light mode
+                if (mapView && mapView.map) {
+                    mapView.map.basemap = "streets-navigation-vector";
+                }
+            }
+        });
+
+        // DOM Elements
+        const startVerificationBtn = document.getElementById('startVerification');
+        const aiAnalysisSection = document.getElementById('aiAnalysisSection');
+        const analyzeLocationBtn = document.getElementById('analyzeLocation');
+        const detailedResults = document.getElementById('detailedResults');
+        const newAnalysisBtn = document.getElementById('newAnalysis');
+        const downloadJsonBtn = document.getElementById('downloadJson');
+        const saveToDatabaseBtn = document.getElementById('saveToDatabase');
+        const useSelectedLocationBtn = document.getElementById('useSelectedLocation');
+        const viewDetailedResultsBtn = document.getElementById('viewDetailedResults');
+        const solarPanelDetectorTitle = document.getElementById('solarPanelDetectorTitle');
+        const resultsSections = document.getElementById('resultsSections');
+
+        // Map variables
+        let mapView;
+        let selectedLocation = null;
+        
+        // 3D Map Variables
+        let sceneView;
+        let isAnimating = false;
+
+        // 3D Map Helper Functions
+        function setAnimating(animating) {
+            isAnimating = animating;
+            const container = document.getElementById('satellite3dContainer');
+            if (container) {
+                if (animating) {
+                    container.classList.add('animating');
+                } else {
+                    container.classList.remove('animating');
+                }
+            }
+        }
+
+        function setupInteractionModes() {
+            const compassTool = document.getElementById('compassTool');
+            const reset3dView = document.getElementById('reset3dView');
+            const resetTilt = document.getElementById('resetTilt');
+
+            if (!compassTool || !reset3dView || !resetTilt) {
+                console.error('3D control buttons not found');
+                return;
+            }
+
+            // Compass Tool - Reset to North
+            compassTool.addEventListener('click', function() {
+                if (isAnimating || !sceneView) return;
+                
+                setAnimating(true);
+                sceneView.goTo({
+                    heading: 0
+                }, {
+                    duration: 1000
+                }).then(() => {
+                    setAnimating(false);
+                }).catch(() => {
+                    setAnimating(false);
+                });
+            });
+
+            // Reset 3D View
+            reset3dView.addEventListener('click', function() {
+                if (isAnimating || !sceneView || !selectedLocation) return;
+                
+                setAnimating(true);
+                sceneView.goTo({
+                    target: [selectedLocation.longitude, selectedLocation.latitude],
+                    tilt: 65,
+                    heading: 0,
+                    zoom: 18
+                }, {
+                    duration: 1500
+                }).then(() => {
+                    setAnimating(false);
+                }).catch(() => {
+                    setAnimating(false);
+                });
+            });
+
+            // Reset Tilt
+            resetTilt.addEventListener('click', function() {
+                if (isAnimating || !sceneView) return;
+                
+                setAnimating(true);
+                const currentCenter = sceneView.center;
+                sceneView.goTo({
+                    target: currentCenter,
+                    tilt: 0,
+                    heading: sceneView.camera.heading,
+                    zoom: sceneView.zoom
+                }, {
+                    duration: 1000
+                }).then(() => {
+                    setAnimating(false);
+                }).catch(() => {
+                    setAnimating(false);
+                });
+            });
+        }
+
+        // Event Listeners
+        startVerificationBtn?.addEventListener('click', () => {
+            aiAnalysisSection.classList.remove('hidden');
+            window.scrollTo({ top: aiAnalysisSection.offsetTop - 20, behavior: 'smooth' });
+            initializeMap();
+        });
+
+        useSelectedLocationBtn.addEventListener('click', () => {
+            if (selectedLocation) {
+                document.getElementById('latitude').value = selectedLocation.latitude;
+                document.getElementById('longitude').value = selectedLocation.longitude;
+                
+                // Generate sample ID based on location
+                const latStr = selectedLocation.latitude.toFixed(4).replace('.', '');
+                const lonStr = selectedLocation.longitude.toFixed(4).replace('.', '');
+                document.getElementById('sampleId').value = `SOLAR_${latStr}_${lonStr}`;
+                
+                alert('Location coordinates have been set!');
+            } else {
+                alert('Please select a location on the map first.');
+            }
+        });
+
+        // AI Analysis Functions
+        analyzeLocationBtn.addEventListener('click', async () => {
+            const sampleId = document.getElementById('sampleId').value;
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+            
+            if (!latitude || !longitude) {
+                alert('Please enter Latitude and Longitude');
+                return;
+            }
+            
+            // Show progress and disable button
+            analyzeLocationBtn.disabled = true;
+            analyzeLocationBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Analyzing...';
+            
+            try {
+                // Show Solar Panel Detector title
+                solarPanelDetectorTitle.classList.remove('hidden');
+                
+                // Show results sections
+                resultsSections.classList.remove('hidden');
+                
+                // Scroll to results
+                setTimeout(() => {
+                    solarPanelDetectorTitle.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+                
+                // Generate mock results immediately (no loading time)
+                const mockResults = generateMockAnalysis(sampleId || 'AUTO_' + Date.now(), parseFloat(latitude), parseFloat(longitude));
+                
+                // Show results immediately
+                showAIAnalysisResults(mockResults);
+                
+                // Initialize 3D view
+                try {
+                    initializeSceneView(parseFloat(latitude), parseFloat(longitude));
+                } catch (error) {
+                    console.error('3D view initialization failed:', error);
+                }
+                
+            } catch (error) {
+                console.error('Analysis failed:', error);
+                alert('Analysis failed. Please try again.');
+            } finally {
+                analyzeLocationBtn.disabled = false;
+                analyzeLocationBtn.innerHTML = '<i class="fas fa-search mr-2"></i> Analyze Location';
+            }
+        });
+
+        // View Detailed Results Button
+viewDetailedResultsBtn.addEventListener('click', () => {
+    detailedResults.classList.remove('hidden');
+    // Hide the button itself after clicking
+    viewDetailedResultsBtn.classList.add('hidden');
+    detailedResults.scrollIntoView({ behavior: 'smooth' });
+});
+
+newAnalysisBtn.addEventListener('click', () => {
+    detailedResults.classList.add('hidden');
+    resultsSections.classList.add('hidden');
+    solarPanelDetectorTitle.classList.add('hidden');
+    // Make the button visible again for new analysis
+    viewDetailedResultsBtn.classList.remove('hidden');
+    document.getElementById('sampleId').value = '';
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
+            document.getElementById('csvUpload').value = '';
+            
+            // Scroll back to top
+            document.getElementById('initialSections').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        downloadJsonBtn.addEventListener('click', () => {
+            const sampleId = document.getElementById('sampleId').value;
+            if (sampleId) {
+                // Create a blob with the JSON data
+                const jsonData = document.getElementById('jsonOutput').textContent;
+                const blob = new Blob([jsonData], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                // Create a temporary link and trigger download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${sampleId}_analysis.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('JSON file downloaded successfully!');
+            } else {
+                alert('No analysis results to download');
+            }
+        });
+
+        saveToDatabaseBtn.addEventListener('click', () => {
+            alert('Results saved to database successfully!');
+        });
+
+        // Generate realistic mock analysis data
+        function generateMockAnalysis(sampleId, latitude, longitude) {
+            const hasSolar = Math.random() > 0.4;
+            const confidence = hasSolar ? (0.85 + Math.random() * 0.12) : (0.65 + Math.random() * 0.25);
+            const panelCount = hasSolar ? Math.floor(4 + Math.random() * 20) : 0;
+            const pvArea = hasSolar ? Math.round((panelCount * 1.65 + Math.random() * 1.8) * 10) / 10 : 0;
+            const capacity = hasSolar ? Math.round((pvArea * 0.21) * 10) / 10 : 0;
+            
+            // Determine QC status
+            let qcStatus, qcNotes;
+            if (hasSolar) {
+                qcStatus = Math.random() > 0.15 ? "VERIFIABLE" : "PARTIALLY_VERIFIABLE";
+                qcNotes = [
+                    "Clear roof view within 1200 sq.ft radius",
+                    "Distinct solar module patterns detected",
+                    "Consistent panel alignment and spacing"
+                ];
+                if (qcStatus === "PARTIALLY_VERIFIABLE") {
+                    qcNotes = [
+                        "Clear roof view within search radius",
+                        "Partial obstruction detected at edges",
+                        "Recommend manual verification"
+                    ];
+                }
+            } else {
+                qcStatus = Math.random() > 0.2 ? "NO_SOLAR_DETECTED" : "NOT_VERIFIABLE";
+                qcNotes = [
+                    "No solar panel signatures found",
+                    "Clear rooftop visibility in scanned area",
+                    "No obstructions detected"
+                ];
+                if (qcStatus === "NOT_VERIFIABLE") {
+                    qcNotes = [
+                        "Heavy shadow/cloud cover in area",
+                        "Possible obstructions limiting visibility",
+                        "Recommend retry with different imagery"
+                    ];
+                }
+            }
+            
+            // Generate random capture date
+            const randomDaysAgo = Math.floor(1 + Math.random() * 30);
+            const captureDate = new Date();
+            captureDate.setDate(captureDate.getDate() - randomDaysAgo);
+            
+            return {
+                "sample_id": sampleId,
+                "lat": latitude,
+                "lon": longitude,
+                "has_solar": hasSolar,
+                "confidence": Math.round(confidence * 100) / 100,
+                "panel_count_est": panelCount,
+                "pv_area_sqm_est": pvArea,
+                "capacity_kw_est": capacity,
+                "qc_status": qcStatus,
+                "qc_notes": qcNotes,
+                "scan_radius": "1200 sq.ft",
+                "bbox_or_mask": "",
+                "image_metadata": {
+                    "source": "Sentinel-2 Satellite Imagery",
+                    "resolution": "10m/pixel",
+                    "capture_date": captureDate.toISOString().split('T')[0],
+                    "cloud_cover": Math.round(Math.random() * 0.3 * 100) / 100
+                },
+                "analysis_timestamp": new Date().toISOString()
+            };
+        }
+
+        function showAIAnalysisResults(results) {
+            // Initialize 3D satellite view
+            try {
+                initializeSceneView(results.lat, results.lon);
+            } catch (error) {
+                console.error('3D view initialization failed:', error);
+            }
+            
+            // Update the UI with results
+            document.getElementById('hasSolarResult').textContent = results.has_solar ? "Yes" : "No";
+            document.getElementById('hasSolarResult').className = results.has_solar ? "value-display status-verified" : "value-display status-not-verified";
+            
+            document.getElementById('confidenceResult').textContent = results.confidence;
+            document.getElementById('panelCountResult').textContent = results.panel_count_est;
+            document.getElementById('pvAreaResult').textContent = `${results.pv_area_sqm_est} m²`;
+            document.getElementById('capacityResult').textContent = `${results.capacity_kw_est} kW`;
+            document.getElementById('qcStatusResult').textContent = results.qc_status;
+            
+            // Set QC status color
+            if (results.qc_status === "VERIFIABLE") {
+                document.getElementById('qcStatusResult').className = "value-display status-verified";
+            } else if (results.qc_status === "PARTIALLY_VERIFIABLE") {
+                document.getElementById('qcStatusResult').className = "value-display status-partial";
+            } else {
+                document.getElementById('qcStatusResult').className = "value-display status-not-verified";
+            }
+            
+            // Update QC notes (limited to 3 points)
+            const qcNotesList = document.getElementById('qcNotesList');
+            qcNotesList.innerHTML = '';
+            
+            // Take only first 3 notes
+            const limitedNotes = results.qc_notes.slice(0, 3);
+            limitedNotes.forEach(note => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start qc-item p-3 rounded-lg';
+                li.innerHTML = `
+                    <i class="fas fa-check-circle qc-tick mt-1 mr-3 text-lg"></i>
+                    <span class="input-label font-medium">${note}</span>
+                `;
+                qcNotesList.appendChild(li);
+            });
+            
+            // Update JSON output
+            document.getElementById('jsonOutput').textContent = JSON.stringify(results, null, 2);
+            
+            // Update analysis preview
+            const analysisPreview = document.getElementById('analysisPreview');
+            analysisPreview.innerHTML = `
+                <div class="text-center w-full">
+                    <div class="p-6 rounded-lg inline-block max-w-full">
+                        <i class="fas ${results.has_solar ? 'fa-solar-panel' : 'fa-times-circle'} text-5xl mb-4" style="color: var(--text-primary);"></i>
+                        <p class="font-bold text-xl mb-4" style="color: var(--text-primary);">Satellite Scan Results</p>
+                        <div class="mt-4 space-y-2">
+    <p class="font-medium input-label">Location: ${results.lat.toFixed(4)}, ${results.lon.toFixed(4)}</p>
+    <p class="font-medium input-label">Scan Radius: ${results.scan_radius}</p>
+    <p class="font-medium input-label">Detection: ${results.has_solar ? 'Solar panels found' : 'No solar panels detected'}</p>
+    <p class="font-medium input-label">Confidence: ${(results.confidence * 100).toFixed(1)}%</p>
+    <p class="font-medium input-label">Imagery: ${results.image_metadata.source}</p>
+</div>
+${results.has_solar ? 
+    `<div class="mt-4 p-3">
+        <p class="text-sm font-semibold" style="color: var(--text-primary);">✓ Solar installation verified within ${results.scan_radius} radius</p>
+    </div>` : 
+    `<div class="mt-4 p-3">
+        <p class="text-sm font-semibold" style="color: var(--text-primary);">No solar panels detected in scanned area</p>
+    </div>`
+}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Map Functions
+        function initializeMap() {
+            require([
+                "esri/Map",
+                "esri/views/MapView",
+                "esri/widgets/Search",
+                "esri/widgets/Locate",
+                "esri/Graphic",
+                "esri/layers/GraphicsLayer",
+                "esri/geometry/Point",
+                "esri/rest/locator",
+                "esri/geometry/support/webMercatorUtils"
+            ], function(Map, MapView, Search, Locate, Graphic, GraphicsLayer, Point, locator, webMercatorUtils) {
+                const graphicsLayer = new GraphicsLayer();
+                const locatorUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+
+                // Create map
+                const map = new Map({
+                    basemap: document.body.classList.contains('dark-mode') ? "dark-gray-vector" : "streets-navigation-vector"
+                });
+                map.add(graphicsLayer);
+
+                // Create view
+                mapView = new MapView({
+                    container: "viewDiv",
+                    map: map,
+                    zoom: 8,
+                    center: [77.2088, 28.6139]
+                });
+
+                // Add search widget
+                const searchWidget = new Search({
+                    view: mapView,
+                    popupEnabled: false,
+                    resultGraphicEnabled: false,
+                    searchTerm: ""
+                });
+                searchWidget.on("search-complete", handleSearchResults);
+                mapView.ui.add(searchWidget, "top-right");
+
+                // Add locate widget
+                const locateBtn = new Locate({
+                    view: mapView
+                });
+                mapView.ui.add(locateBtn, "top-right");
+
+                // Get current location or use default
+                function initializeLocation() {
+                    const lat = parseFloat(localStorage.getItem("lat")) || 28.6139;
+                    const lng = parseFloat(localStorage.getItem("lng")) || 77.2088;
+
+                    if (lat && lng) {
+                        updateLocation(parseFloat(lng), parseFloat(lat));
+                    } else {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                updateLocation(position.coords.longitude, position.coords.latitude);
+                            },
+                            () => {
+                                console.log('Using default location');
+                                updateLocation(77.2088, 28.6139);
+                            }
+                        );
+                    }
+                }
+
+                // Handle map clicks
+                mapView.on("click", function(event) {
+                    const point = mapView.toMap(event.screenPoint);
+                    updateLocation(point.longitude, point.latitude);
+                });
+
+                // Handle search results
+                function handleSearchResults(event) {
+                    if (event.results?.length > 0) {
+                        const result = event.results[0];
+                        if (result.feature?.geometry) {
+                            const geometry = result.feature.geometry;
+                            updateLocation(geometry.longitude, geometry.latitude);
+                        }
+                    }
+                }
+
+                function updateLocation(longitude, latitude) {
+                    // Round coordinates
+                    const lat = Math.round(latitude * 10000) / 10000;
+                    const lon = Math.round(longitude * 10000) / 10000;
+
+                    // Update display
+                    document.getElementById('selectedLatitude').textContent = lat;
+                    document.getElementById('selectedLongitude').textContent = lon;
+
+                    // Store selected location
+                    selectedLocation = { latitude: lat, longitude: lon };
+
+                    // Clear existing graphics
+                    graphicsLayer.removeAll();
+
+                    // Add marker
+                    const point = new Point({
+                        longitude: lon,
+                        latitude: lat
+                    });
+
+                    const graphic = new Graphic({
+                        geometry: point,
+                        symbol: {
+                            type: "simple-marker",
+                            color: "#0166da",
+                            size: "15px",
+                            outline: {
+                                color: "white",
+                                width: 2
+                            }
+                        }
+                    });
+
+                    graphicsLayer.add(graphic);
+
+                    mapView.goTo({
+                        target: point,
+                        zoom: 15
+                    }, {
+                        duration: 2000,
+                        easing: "ease-out"
+                    });
+
+                    // Get address and update display
+                    locator.locationToAddress(locatorUrl, {
+                        location: point
+                    }).then(
+                        function(response) {
+                            document.getElementById('selectedAddress').textContent = response.address;
+                        },
+                        function(error) {
+                            document.getElementById('selectedAddress').textContent = "No address found for this location";
+                        }
+                    );
+                }
+
+                // Debounce function
+                function debounce(func, wait) {
+                    let timeout;
+                    return function executedFunction(...args) {
+                        const later = () => {
+                            clearTimeout(timeout);
+                            func(...args);
+                        };
+                        clearTimeout(timeout);
+                        timeout = setTimeout(later, wait);
+                    };
+                }
+
+                // Get DOM elements
+                const searchInput = document.getElementById('searchInput');
+                const suggestionsContainer = document.getElementById('suggestionsContainer');
+
+                // Function to fetch suggestions from API
+                async function fetchSuggestions(input) {
+                    if (!input.trim()) {
+                        suggestionsContainer.style.display = 'none';
+                        return;
+                    }
+
+                    try {
+                        const encodedInput = encodeURIComponent(input);
+                        const response = await fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?maxSuggestions=6&outSR=%7B%22latestWkid%22%3A3857%2C%22wkid%22%3A102100%7D&text=${encodedInput}&f=json`);
+                        const data = await response.json();
+
+                        // Clear previous suggestions
+                        suggestionsContainer.innerHTML = '';
+
+                        if (data.suggestions && data.suggestions.length > 0) {
+                            data.suggestions.forEach(suggestion => {
+                                const div = document.createElement('div');
+                                div.className = 'suggestion-item';
+                                div.textContent = suggestion.text;
+                                div.addEventListener('click', () => {
+                                    searchInput.value = suggestion.text;
+                                    suggestionsContainer.style.display = 'none';
+                                    // Fetch coordinates for selected location
+                                    fetchLocationCoordinates(suggestion.text, suggestion.magicKey);
+                                });
+                                suggestionsContainer.appendChild(div);
+                            });
+                            suggestionsContainer.style.display = 'block';
+                        } else {
+                            suggestionsContainer.style.display = 'none';
+                        }
+                    } catch (error) {
+                        console.error('Error fetching suggestions:', error);
+                        suggestionsContainer.style.display = 'none';
+                    }
+                }
+
+                // Function to fetch coordinates for selected location
+                async function fetchLocationCoordinates(address, magicKey) {
+                    try {
+                        const encodedAddress = encodeURIComponent(address);
+                        const url = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${encodedAddress}&magicKey=${magicKey}&maxLocations=6&outFields=Addr_type,Match_addr,StAddr,City&outSR=%7B%22latestWkid%22%3A3857%2C%22wkid%22%3A102100%7D&f=json`;
+
+                        const response = await fetch(url);
+                        const data = await response.json();
+
+                        if (data.candidates && data.candidates.length > 0) {
+                            const location = data.candidates[0].location;
+                            const address = data.candidates[0].address;
+
+                            // Convert Web Mercator coordinates to geographic coordinates
+                            const mercatorPoint = {
+                                x: location.x,
+                                y: location.y,
+                                spatialReference: {
+                                    wkid: 102100
+                                }
+                            };
+
+                            // Convert to geographic coordinates (latitude/longitude)
+                            const geographicPoint = webMercatorUtils.webMercatorToGeographic(mercatorPoint);
+
+                            if (geographicPoint) {
+                                updateLocation(geographicPoint.x, geographicPoint.y);
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error fetching location coordinates:', error);
+                    }
+                }
+
+                // Create debounced version of fetchSuggestions
+                const debouncedFetchSuggestions = debounce(fetchSuggestions, 400);
+
+                // Add event listeners
+                searchInput.addEventListener('input', (e) => {
+                    debouncedFetchSuggestions(e.target.value);
+                });
+
+                // Hide suggestions when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                        suggestionsContainer.style.display = 'none';
+                    }
+                });
+
+                // Initialize with current or default location
+                initializeLocation();
+            });
+        }
+
+        // Initialize 3D Scene View
+        function initializeSceneView(latitude, longitude) {
+            // Clean up existing scene view
+            if (sceneView) {
+                sceneView.destroy();
+                sceneView = null;
+            }
+            
+            require([
+                "esri/Map",
+                "esri/views/SceneView",
+                "esri/layers/FeatureLayer",
+                "esri/Graphic",
+                "esri/geometry/Point",
+                "esri/symbols/PointSymbol3D",
+                "esri/symbols/ObjectSymbol3DLayer",
+                "esri/geometry/Polygon",
+                "esri/symbols/PolygonSymbol3D",
+                "esri/symbols/ExtrudeSymbol3DLayer"
+            ], function(Map, SceneView, FeatureLayer, Graphic, Point, PointSymbol3D, ObjectSymbol3DLayer, Polygon, PolygonSymbol3D, ExtrudeSymbol3DLayer) {
+        
+                // Create a new map for the 3D view
+                const sceneMap = new Map({
+                    basemap: "satellite",
+                    ground: "world-elevation"
+                });
+
+                // Create the SceneView
+                sceneView = new SceneView({
+                    container: "sceneViewDiv",
+                    map: sceneMap,
+                    qualityProfile: "high",
+                    environment: {
+                        atmosphere: {
+                            quality: "high"
+                        },
+                        lighting: {
+                            directShadowsEnabled: true,
+                            date: new Date()
+                        }
+                    },
+                    ui: {
+                        components: [] // Remove default UI components
+                    }
+                });
+
+                // Set initial camera position with animation protection
+                sceneView.when(() => {
+                    setAnimating(true);
+                    
+                    sceneView.goTo({
+                        target: [longitude, latitude],
+                        tilt: 65,
+                        heading: 0,
+                        zoom: 18
+                    }).then(() => {
+                        setAnimating(false);
+                    }).catch((error) => {
+                        console.error('Error setting camera position:', error);
+                        setAnimating(false);
+                    });
+
+                    // Add a 3D marker for the analysis point
+                    const point = new Point({
+                        longitude: longitude,
+                        latitude: latitude
+                    });
+
+                    // Create a 3D symbol for the marker
+                    const symbol3D = new PointSymbol3D({
+                        symbolLayers: [new ObjectSymbol3DLayer({
+                            resource: { primitive: "sphere" },
+                            material: { color: [255, 0, 0, 0.8] },
+                            width: 10,
+                            height: 10,
+                            depth: 10
+                        })]
+                    });
+
+                    const pointGraphic = new Graphic({
+                        geometry: point,
+                        symbol: symbol3D
+                    });
+
+                    sceneView.graphics.add(pointGraphic);
+
+                    // Add a detection area (simulated solar panel area)
+                    const detectionArea = createDetectionAreaGraphic(longitude, latitude, Polygon, PolygonSymbol3D, ExtrudeSymbol3DLayer, Graphic);
+                    sceneView.graphics.add(detectionArea);
+
+                    // Update altitude and tilt display
+                    sceneView.watch("camera", function(camera) {
+                        if (!isAnimating) {
+                            const altElement = document.getElementById('altitudeValue');
+                            const tiltElement = document.getElementById('tiltValue');
+                            if (altElement) {
+                                altElement.textContent = Math.round(camera.position.z) + ' m';
+                            }
+                            if (tiltElement) {
+                                tiltElement.textContent = Math.round(camera.tilt) + '°';
+                            }
+                        }
+                    });
+                });
+
+                // Initialize interaction modes
+                setupInteractionModes();
+            });
+        }
+
+        // Create detection area for solar panels
+        function createDetectionAreaGraphic(centerLon, centerLat, Polygon, PolygonSymbol3D, ExtrudeSymbol3DLayer, Graphic) {
+            const size = 0.0002; // Approx 20m radius
+            const ring = [
+                [centerLon - size, centerLat - size],
+                [centerLon + size, centerLat - size],
+                [centerLon + size, centerLat + size],
+                [centerLon - size, centerLat + size],
+                [centerLon - size, centerLat - size]
+            ];
+
+            const polygon = new Polygon({
+                rings: [ring],
+                spatialReference: { wkid: 4326 }
+            });
+
+            const symbol = new PolygonSymbol3D({
+                symbolLayers: [new ExtrudeSymbol3DLayer({
+                    material: { color: [0, 255, 0, 0.3] }, // Semi-transparent green
+                    size: 5 // Height in meters
+                })]
+            });
+
+            return new Graphic({
+                geometry: polygon,
+                symbol: symbol
+            });
+        }
+
+        // CSV Upload Handler
+        document.getElementById('csvUpload').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const formData = new FormData();
+            formData.append('csv_file', file);
+            
+            try {
+                const response = await fetch('/upload_csv', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    alert(`Successfully processed ${data.results.length} samples`);
+                    // You could display batch results here
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                alert('CSV upload failed: ' + error.message);
+            }
+        });
+
+        // Auto-show AI Analysis section and initialize map when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            aiAnalysisSection.classList.remove('hidden');
+            initializeMap();
+        });
+    </script>
+
+</body>
+</html>

@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="import" href="header.html" id="header-import">
-<link rel="import" href="footer.html" id="footer-import">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="import" href="header.html" id="header-import">
+    <link rel="import" href="footer.html" id="footer-import">
     <title>PM Surya Ghar Yojana - Solar Subsidy Scheme</title>
     <style>
         :root {
-            --bg-primary: #f9fafb;
-            --bg-secondary: #ffffff;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
             --text-primary: #111827;
             --text-secondary: #6b7280;
             --border-color: #e5e7eb;
@@ -20,6 +20,11 @@
             --input-bg: #ffffff;
             --input-text: #111827;
             --input-border: #e5e7eb;
+            --hero-bg: url('https://i.postimg.cc/V6cTnNyt/hi.jpg');
+            --content-bg: #f9fafb;
+            --gray-container-bg: #f3f4f6;
+            --hero-box-bg-light: rgba(255, 255, 255, 0.8);
+            --hero-box-bg-dark: rgba(26, 27, 48, 0.8);
         }
 
         .dark-mode {
@@ -33,6 +38,37 @@
             --input-bg: #374151;
             --input-text: #f9fafb;
             --input-border: #4b5563;
+            --hero-bg: url('https://i.postimg.cc/V6cTnNyt/hi.jpg');
+            --content-bg: #111827;
+            --gray-container-bg: #1f2937;
+            --hero-box-bg-light: rgba(255, 255, 255, 0.8);
+            --hero-box-bg-dark: rgba(26, 27, 48, 0.8);
+        }
+
+        .light-mode {
+            --hero-bg: url('https://i.postimg.cc/m2RxPN93/Day.jpg');
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--header-bg), #3b82f6, #60a5fa) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-footer {
+            background-color: #1f2937 !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         body {
@@ -74,7 +110,6 @@
             background-color: var(--accent-color);
         }
 
-        /* Dark mode overrides */
         .dark-mode .bg-white {
             background-color: var(--bg-secondary) !important;
         }
@@ -136,22 +171,22 @@
             color: var(--text-primary);
         }
 
-        .glowing-title {
-            background: linear-gradient(90deg, 
-                #00ffff, #33ffff, #66ffff, #e0ffff, 
-                #00ffff, #33ffff, #66ffff, #e0ffff,
-                #00ffff, #33ffff, #66ffff, #e0ffff,
-                #00ffff, #33ffff, #66ffff, #e0ffff,
-                #00ffff, #33ffff, #66ffff, #e0ffff, 
-                #00ffff, #33ffff, #66ffff, #e0ffff
-            );
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: colorShift 16s ease infinite, glowPulse 2s ease-in-out infinite alternate;
-            position: relative;
-        }
+.dark-mode .static-title {
+    background: linear-gradient(90deg, 
+        #00ffff, #33ffff, #66ffff, #e0ffff, 
+        #00ffff, #33ffff, #66ffff, #e0ffff,
+        #00ffff, #33ffff, #66ffff, #e0ffff,
+        #00ffff, #33ffff, #66ffff, #e0ffff,
+        #00ffff, #33ffff, #66ffff, #e0ffff, 
+        #00ffff, #33ffff, #66ffff, #e0ffff
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: colorShift 16s ease infinite, glowPulse 2s ease-in-out infinite alternate;
+    position: relative;
+}
 
         @keyframes colorShift {
             0% { background-position: 0% 50%; }
@@ -170,7 +205,6 @@
             }
         }
 
-        /* Simplified Pulsating Border Animation */
         @keyframes pulsatingBorder {
             0% {
                 box-shadow: 0 0 0 3px #ff0000;
@@ -256,7 +290,6 @@
             box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
         }
 
-        /* Rocket launch animation */
         .rocket-launch {
             position: relative;
             overflow: hidden;
@@ -310,7 +343,6 @@
             }
         }
 
-         /* Full screen hero image styles */
         .fixed-bg {
             position: fixed;
             top: 0;
@@ -319,90 +351,413 @@
             height: 100vh;
             z-index: -1;
             object-fit: cover;
+            transition: opacity 0.7s ease-in-out;
         }
-        
-        /* Ensure main content appears after hero */
+
         .main-content-wrapper {
             position: relative;
             z-index: 20;
             background-color: var(--bg-primary);
         }
+
+        #footer {
+            position: relative;
+            z-index: 50;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .hero-section {
+            margin-top: 0 !important;
+        }
+
+        .hero-bg-dark {
+            background-image: var(--hero-bg);
+        }
+
+        .hero-bg-light {
+            background-image: url('https://i.postimg.cc/m2RxPN93/Day.jpg');
+        }
+
+        .view-features-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            transition: all 0.3s ease;
+        }
+
+        .view-features-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .bullet-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .bullet-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #f59e0b;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .gray-container {
+            background-color: var(--gray-container-bg) !important;
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .gray-container .ai-analysis-box,
+        .gray-container .quick-action-box {
+            background: var(--gray-container-bg) !important;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .gray-container .ai-analysis-box,
+        .dark-mode .gray-container .quick-action-box {
+            background: var(--gray-container-bg) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content-bg-wrapper {
+            background-color: var(--content-bg);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Benefit Box Carousel Styles */
+.benefit-carousel-container {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.benefit-carousel-item {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.benefit-carousel-item.active {
+    opacity: 1;
+    position: relative;
+}
+
+/* Add this new CSS rule */
+.benefit-carousel-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+        .benefit-carousel-inner {
+            display: flex;
+            transition: transform 0.8s ease;
+            height: 100%;
+        }
+
+        .benefit-carousel-item {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .benefit-carousel-item.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .benefit-carousel-dots {
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .benefit-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dark-mode .benefit-dot {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .benefit-dot.active {
+            background-color: #f59e0b;
+        }
+
+        /* Hero Box Styles */
+        .hero-content-box {
+            background-color: var(--hero-box-bg-light);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        .dark-mode .hero-content-box {
+            background-color: var(--hero-box-bg-dark);
+        }
+
+        /* Smooth image transition */
+        .fade-transition {
+            transition: opacity 0.7s ease-in-out;
+        }
+
+        /* Hero title static in light mode */
+        .static-title {
+            color: #1a1b30;
+        }
+
+        /* Navy Blue background for light mode containers */
+.light-mode .bg-white.dark\:bg-gray-800 {
+    background-color: #1e3a8a !important;
+}
+
+/* Lighten the text in navy blue containers for better readability */
+.light-mode .bg-white.dark\:bg-gray-800 .text-gray-800,
+.light-mode .bg-white.dark\:bg-gray-800 .text-gray-700,
+.light-mode .bg-white.dark\:bg-gray-800 .text-gray-300 {
+    color: #e5e7eb !important;
+}
+
+/* Keep dark text for specific elements in light mode on navy background */
+.light-mode .bg-white.dark\:bg-gray-800 h2,
+.light-mode .bg-white.dark\:bg-gray-800 h3,
+.light-mode .bg-white.dark\:bg-gray-800 h4,
+.light-mode .bg-white.dark\:bg-gray-800 .font-bold {
+    color: #ffffff !important;
+}
+
+/* Update bullet list text color in navy containers for light mode */
+.light-mode .bg-white.dark\:bg-gray-800 .bullet-list li {
+    color: #e5e7eb !important;
+}
+
+/* Adjust benefit carousel box styles for navy background in light mode */
+.light-mode .bg-white.dark\:bg-gray-800 .glow-box {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Update AI Analysis and Quick Action boxes for navy background */
+.light-mode .bg-white.dark\:bg-gray-800 .ai-analysis-box,
+.light-mode .bg-white.dark\:bg-gray-800 .quick-action-box {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Ensure proper text contrast in navy containers for light mode */
+.light-mode .bg-white.dark\:bg-gray-800 .prose,
+.light-mode .bg-white.dark\:bg-gray-800 .prose ul,
+.light-mode .bg-white.dark\:bg-gray-800 .prose li {
+    color: #e5e7eb !important;
+}
+
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen m-0 p-0">
     <!-- Dark Mode Toggle -->
     <div class="dark-mode-toggle" id="darkModeToggle">
         <i class="fas fa-moon" id="darkModeIcon"></i>
     </div>
 
-<!-- Navigation Header -->
-<div id="header"></div>
+    <!-- Navigation Header -->
+    <div id="header"></div>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main>
         <!-- Hero Section with Full Screen Static Background -->
-        <section class="relative h-screen w-full overflow-hidden">
-            <!-- Full-screen static background image -->
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80" 
+        <section class="relative h-screen w-full overflow-hidden hero-section">
+            <!-- Full-screen static background images with transition -->
+            <div class="absolute inset-0 z-0 overflow-hidden">
+                <img src="https://i.postimg.cc/V6cTnNyt/hi.jpg" 
                      alt="Solar Panels Background" 
-                     class="w-full h-full object-cover fixed">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/60"></div>
+                     class="fixed-bg hero-bg-dark fade-transition"
+                     id="heroBgDark">
+                <img src="https://i.postimg.cc/m2RxPN93/Day.jpg" 
+                     alt="Solar Panels Light Background" 
+                     class="fixed-bg hero-bg-light fade-transition hidden"
+                     id="heroBgLight">
             </div>
-            
+                    
             <!-- Hero content that stays in position -->
             <div class="relative z-10 h-full flex items-center justify-center">
                 <div class="container mx-auto px-4">
-                    <div class="max-w-6xl mx-auto">
-                        <div class="flex flex-col md:flex-row items-center justify-between">
-                            <div class="md:w-1/2 mb-8 md:mb-0">
-                                <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 glowing-title">Powering India's Solar Revolution</h2>
-                                <p class="text-xl md:text-2xl lg:text-3xl mb-8 text-white opacity-95">The PM Surya Ghar Yojana is a visionary scheme to provide free electricity to households through rooftop solar installations with substantial government subsidies.</p>
-                            </div>
-                            <div class="md:w-1/2"></div>
-                        </div>
+<div class="hero-content-box text-center">
+    <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 static-title light-mode-title">Powering India's<br>Solar Revolution</h2>
+    <button id="viewFeaturesBtn" class="view-features-btn text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg font-sans mx-auto">
+        <i class="fas fa-arrow-down mr-2"></i> View Features
+    </button>
+</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Background Wrapper (applies only to content sections) -->
+        <div class="relative z-20 content-bg-wrapper pt-12 pb-12">
+            
+            <!-- Main Content Container -->
+            <div class="container mx-auto px-4">
+                <!-- Scheme Description Section with Benefits Carousel -->
+                <section class="py-12">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 max-w-6xl mx-auto">
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+            <!-- Left side: About PM Surya Ghar Yojana -->
+            <div class="lg:w-1/2">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-left text-gray-800 dark:text-white">About PM Surya Ghar Yojana</h2>
+                <div class="prose prose-lg max-w-none text-gray-700 dark:text-gray-300 text-left">
+                    <ul class="bullet-list">
+                        <li class="mb-4"><strong class="text-lg">The Mission: Free Electricity for 1 Crore Households</strong><br>
+                        PM Surya Ghar: Muft Bijli Yojana is a national initiative promoting rooftop solar installations.</li>
+                        
+                        <li class="mb-4">The government plans to invest ₹75,000 crore to supply 1 crore households with up to 300 units of free electricity each month.</li>
+                        
+                        <li class="mb-4">A large-scale scheme like this requires a reliable and low-cost verification system to maintain transparency and public trust.</li>
+                        
+                        <li class="mb-4">Current challenge: Traditional field inspections are slow, costly, and difficult to scale.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Right side: Benefits Carousel -->
+            <div class="lg:w-1/2 w-full h-full flex items-center justify-center">
+                <div class="benefit-carousel-container w-full h-full">
+                    <div class="benefit-carousel-inner">
+                        <!-- Benefit 1 -->
+<div class="benefit-carousel-item active">
+    <div class="benefit-carousel-content glow-box">
+        <i class="fas fa-home text-4xl text-blue-500 mb-4"></i>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800 dark:text-white">For Residential Users</h3>
+        <p class="text-gray-700 dark:text-gray-300 text-lg">Subsidies up to ₹78,000 for installing rooftop solar systems</p>
+    </div>
+</div>
+
+<!-- Benefit 2 -->
+<div class="benefit-carousel-item">
+    <div class="benefit-carousel-content glow-box">
+        <i class="fas fa-industry text-4xl text-green-500 mb-4"></i>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800 dark:text-white">For Commercial Users</h3>
+        <p class="text-gray-700 dark:text-gray-300 text-lg">Accelerated depreciation and tax benefits available in this system</p>
+    </div>
+</div>
+
+<!-- Benefit 3 -->
+<div class="benefit-carousel-item">
+    <div class="benefit-carousel-content glow-box">
+        <i class="fas fa-bolt text-4xl text-yellow-500 mb-4"></i>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800 dark:text-white">Free Electricity</h3>
+        <p class="text-gray-700 dark:text-gray-300 text-lg">Generate your own power and reduce electricity bills significantly</p>
+    </div>
+</div>
+
+<!-- Benefit 4 -->
+<div class="benefit-carousel-item">
+    <div class="benefit-carousel-content glow-box">
+        <i class="fas fa-chart-line text-4xl text-purple-500 mb-4"></i>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800 dark:text-white">Income Opportunity</h3>
+        <p class="text-gray-700 dark:text-gray-300 text-lg">Sell excess electricity back to the grid and earn additional income</p>
+    </div>
+</div>
+
+<!-- Benefit 5 -->
+<div class="benefit-carousel-item">
+    <div class="benefit-carousel-content glow-box">
+        <i class="fas fa-rupee-sign text-red-400 text-4xl mb-4"></i>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800 dark:text-white">Substantial Subsidies</h3>
+        <p class="text-gray-700 dark:text-gray-300 text-lg">Up to 60% subsidy on installation costs for eligible households</p>
+    </div>
+</div>
+
+<!-- Benefit 6 -->
+<div class="benefit-carousel-item">
+    <div class="benefit-carousel-content glow-box">
+        <i class="fas fa-leaf text-emerald-400 text-4xl mb-4"></i>
+        <h3 class="text-2xl font-bold mb-3 text-gray-800 dark:text-white">Green Energy</h3>
+        <p class="text-gray-700 dark:text-gray-300 text-lg">Contribute to India's renewable energy goals and a cleaner environment</p>
+    </div>
+</div>
+                    
+                    <!-- Dots navigation -->
+                    <div class="benefit-carousel-dots">
+                        <span class="benefit-dot active" data-slide="0"></span>
+                        <span class="benefit-dot" data-slide="1"></span>
+                        <span class="benefit-dot" data-slide="2"></span>
+                        <span class="benefit-dot" data-slide="3"></span>
+                        <span class="benefit-dot" data-slide="4"></span>
+                        <span class="benefit-dot" data-slide="5"></span>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <!-- Main Content Container -->
-        <div class="relative z-20 bg-gray-50 dark:bg-gray-900">
-
-        <!-- Scheme Description Section -->
-        <section class="mb-12">
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 max-w-6xl mx-auto">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-800 dark:text-white">About PM Surya Ghar Yojana</h2>
-                <div class="prose prose-lg max-w-none text-gray-700 dark:text-gray-300">
-                    <p class="mb-4">The PM Surya Ghar: Muft Bijli Yojana is a revolutionary scheme launched by the Government of India to promote the adoption of rooftop solar systems in residential households. This ambitious initiative aims to provide free electricity to up to 1 crore households who choose to install rooftop solar systems, while also offering substantial financial subsidies to make the transition affordable and accessible.</p>
-                    
-                    <p class="mb-4">Under this scheme, eligible households can receive subsidies of up to 60% of the installation cost, with a maximum subsidy of ₹78,000. The scheme is designed to not only reduce electricity bills for households but also contribute to India's renewable energy goals and environmental sustainability. By harnessing solar power, households can become self-reliant in their energy needs and even earn additional income by selling excess electricity back to the grid.</p>
-                    
-                    <p class="mb-4">The application process has been simplified through a centralized national portal that streamlines the entire process - from registration to installation and subsidy disbursement. The scheme also supports the development of a robust ecosystem for solar energy, creating employment opportunities for youth with technical skills in installation, manufacturing, and maintenance of solar panels.</p>
-                    
-                    <p class="mb-4">With an allocated budget of ₹75,021 crore, the PM Surya Ghar Yojana represents one of the world's largest rooftop solar programs. It aligns with India's commitment to reach 500 GW of renewable energy capacity by 2030 and achieve net-zero emissions by 2070. The scheme not only addresses energy access and affordability but also positions India as a global leader in the clean energy transition.</p>
-                    
-                    <p>Households interested in availing benefits under this scheme can register through the national portal, where they can also access a subsidy calculator, vendor information, and detailed guidelines. The scheme is expected to not only transform India's energy landscape but also empower households to become active participants in the country's sustainable development journey.</p>
-                </div>
-            </div>
-        </section>
-
+<!-- Navy Blue Container for AI Analysis and Quick Actions -->
+<section class="py-12 mb-12">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 max-w-6xl mx-auto">
         <!-- AI Analysis Section -->
-        <section class="mb-12">
-            <div class="ai-analysis-box rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto">
+        <div class="mb-12" id="aiAnalysisSection">
+            <div class="ai-analysis-box rounded-2xl p-8 md:p-12 text-center">
                 <h3 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">AI-Powered Solar Analysis</h3>
                 <p class="text-lg md:text-xl mb-8 text-gray-700 dark:text-gray-300">Our advanced AI system automatically verifies rooftop solar installations and checks eligibility for subsidies under the PM Surya Ghar Yojana scheme.</p>
                 <button id="startAnalysis" class="rocket-launch cta-button text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg relative overflow-hidden">
                     <i class="fas fa-rocket rocket-icon mr-2"></i> Start AI Analysis
                 </button>
             </div>
-        </section>
+        </div>
 
         <!-- Quick Actions Section -->
-        <section class="mb-12">
+        <div>
             <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Quick Actions</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Subsidy Calculator Box -->
                 <div class="quick-action-box rounded-2xl p-8 text-center">
                     <i class="fas fa-calculator text-5xl text-green-500 mb-6"></i>
@@ -423,53 +778,16 @@
                     </button>
                 </div>
             </div>
-        </section>
-
-        <!-- Scheme Benefits Section -->
-        <section class="mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Scheme Benefits</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-home text-3xl text-blue-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">For Residential Users</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Subsidies up to ₹78,000 for installing rooftop solar systems</p>
-                </div>
-                
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-industry text-3xl text-green-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">For Commercial Users</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Accelerated depreciation and tax benefits available</p>
-                </div>
-                
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-bolt text-3xl text-yellow-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Free Electricity</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Generate your own power and reduce electricity bills significantly</p>
-                </div>
-                
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-chart-line text-3xl text-purple-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Income Opportunity</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Sell excess electricity back to the grid and earn additional income</p>
-                </div>
-
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-rupee-sign text-red-400 text-3xl mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Substantial Subsidies</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Up to 60% subsidy on installation costs for eligible households</p>
-                </div>
-                <div class="glow-box rounded-xl p-6 text-center">
-                    <i class="fas fa-leaf text-emerald-400 text-3xl mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Green Energy</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Contribute to India's renewable energy goals and a cleaner environment</p>
-                </div>
-            </div>
         </div>
+    </div>
+</section>
+                
+            </div> <!-- Close container -->
+        </div> <!-- Close content background wrapper -->
     </main>
 
-<!-- Navigation Footer -->
-<div id="footer"></div>
+    <!-- Navigation Footer -->
+    <div id="footer"></div>
 
     <script>
         // Universal header/footer loader with XMLHttpRequest fallback
@@ -518,32 +836,87 @@
         window.addEventListener('load', loadHeaderAndFooter);
     </script>
     <script>
-        // Dark Mode Toggle
+        // Dark Mode Toggle with smooth image transition
         const darkModeToggle = document.getElementById('darkModeToggle');
         const darkModeIcon = document.getElementById('darkModeIcon');
+        const heroBgDark = document.getElementById('heroBgDark');
+        const heroBgLight = document.getElementById('heroBgLight');
+        const heroTitle = document.querySelector('.static-title');
         
         // Check for saved theme preference or respect OS preference
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
         const currentTheme = localStorage.getItem('theme');
         
-        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
-            document.body.classList.add('dark-mode');
-            darkModeIcon.classList.remove('fa-moon');
-            darkModeIcon.classList.add('fa-sun');
-        }
-        
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
+        // Initialize theme
+        function initializeTheme() {
+            if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
                 darkModeIcon.classList.remove('fa-moon');
                 darkModeIcon.classList.add('fa-sun');
+                heroBgDark.classList.remove('hidden');
+                heroBgLight.classList.add('hidden');
             } else {
+                document.body.classList.remove('dark-mode');
+                document.body.classList.add('light-mode');
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+                heroBgDark.classList.add('hidden');
+                heroBgLight.classList.remove('hidden');
+            }
+        }
+        
+        initializeTheme();
+        
+        darkModeToggle.addEventListener('click', function() {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            
+            // Start fade transition
+            if (isDarkMode) {
+                // Switching to light mode
+                heroBgDark.style.opacity = '0';
+                setTimeout(() => {
+                    heroBgDark.classList.add('hidden');
+                    heroBgLight.classList.remove('hidden');
+                    heroBgLight.style.opacity = '0';
+                    setTimeout(() => {
+                        heroBgLight.style.opacity = '1';
+                    }, 10);
+                }, 350);
+                
+                document.body.classList.remove('dark-mode');
+                document.body.classList.add('light-mode');
                 localStorage.setItem('theme', 'light');
                 darkModeIcon.classList.remove('fa-sun');
                 darkModeIcon.classList.add('fa-moon');
+                heroTitle.classList.remove('glowing-title');
+            } else {
+                // Switching to dark mode
+                heroBgLight.style.opacity = '0';
+                setTimeout(() => {
+                    heroBgLight.classList.add('hidden');
+                    heroBgDark.classList.remove('hidden');
+                    heroBgDark.style.opacity = '0';
+                    setTimeout(() => {
+                        heroBgDark.style.opacity = '1';
+                    }, 10);
+                }, 350);
+                
+                document.body.classList.add('dark-mode');
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+                heroTitle.classList.remove('glowing-title');
             }
+        });
+
+        // View Features Button - Smooth Scroll to AI Analysis Section
+        document.getElementById('viewFeaturesBtn').addEventListener('click', function() {
+            const aiAnalysisSection = document.getElementById('aiAnalysisSection');
+            aiAnalysisSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
         });
 
         // Rocket Launch Animation
@@ -575,7 +948,7 @@
             // Redirect after animation completes
             setTimeout(() => {
                 window.location.href = 'AIPSI.html';
-            }, 3000);
+            }, 2000);
         });
 
         // Button Actions
@@ -587,13 +960,59 @@
             window.location.href = 'process.html';
         });
 
-        document.getElementById('loginBtn').addEventListener('click', function() {
-            alert('Redirecting to Login page...');
-        });
+        // Benefits Carousel Functionality
+        const benefitCarouselInner = document.querySelector('.benefit-carousel-inner');
+        const benefitCarouselItems = document.querySelectorAll('.benefit-carousel-item');
+        const benefitDots = document.querySelectorAll('.benefit-dot');
+        let currentBenefitIndex = 0;
+        let benefitInterval;
 
-        document.getElementById('registerBtn').addEventListener('click', function() {
-            alert('Redirecting to Registration page...');
-        });
+        function showBenefitSlide(index) {
+            // Update active class on items
+            benefitCarouselItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Update active dot
+            benefitDots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            currentBenefitIndex = index;
+        }
+        
+        function startBenefitCarousel() {
+            benefitInterval = setInterval(() => {
+                const newIndex = (currentBenefitIndex + 1) % benefitCarouselItems.length;
+                showBenefitSlide(newIndex);
+            }, 6000); // Change every 6 seconds
+        }
+        
+        // Initialize carousel
+        if (benefitCarouselItems.length > 0) {
+            // Add click events to dots
+            benefitDots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-slide'));
+                    showBenefitSlide(index);
+                    
+                    // Reset interval
+                    clearInterval(benefitInterval);
+                    startBenefitCarousel();
+                });
+            });
+            
+            // Start auto-rotation
+            startBenefitCarousel();
+        }
     </script>
 </body>
 </html>

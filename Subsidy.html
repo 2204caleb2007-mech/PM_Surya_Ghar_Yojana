@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subsidy Calculator - PM Surya Ghar Yojana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --header-bg: #1e40af;
+            --accent-color: #f59e0b;
+            --input-bg: #ffffff;
+            --input-text: #111827;
+            --input-border: #e5e7eb;
+        }
+
+        .dark-mode {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --header-bg: #1e3a8a;
+            --accent-color: #d97706;
+            --input-bg: #374151;
+            --input-text: #f9fafb;
+            --input-border: #4b5563;
+        }
+
+        .hero-gradient {
+    background: linear-gradient(135deg, var(--header-bg), #3b82f6, #60a5fa) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-footer {
+    background-color: #1f2937 !important; /* Dark gray background */
+}
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .bg-white {
+            background-color: var(--bg-secondary);
+        }
+
+        .text-gray-700, .text-gray-600, .text-gray-500, .text-gray-400 {
+            color: var(--text-secondary);
+        }
+
+        .border-gray-300 {
+            border-color: var(--border-color);
+        }
+
+        .bg-gray-100 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-50 {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-gray-200 {
+            background-color: var(--border-color);
+        }
+
+        .bg-blue-800 {
+            background-color: var(--header-bg);
+        }
+
+        .bg-yellow-500 {
+            background-color: var(--accent-color);
+        }
+
+        .input-field {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--input-border);
+        }
+
+        .input-label {
+            color: var(--text-primary);
+        }
+
+        .blue-button {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .blue-button:hover {
+            background-color: #2563eb;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .glowing-title {
+            background: linear-gradient(90deg, 
+                #00ffff, #33ffff, #66ffff, #e0ffff, 
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff,
+                #00ffff, #33ffff, #66ffff, #e0ffff, 
+                #00ffff, #33ffff, #66ffff, #e0ffff
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: colorShift 16s ease infinite, glowPulse 2s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 50%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glowPulse {
+            0% { 
+                transform: scale(1);
+            }
+            100% { 
+                transform: scale(1.02);
+            }
+        }
+
+        /* Dark mode overrides */
+        .dark-mode .bg-white {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .bg-gray-50 {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode .bg-gray-100 {
+            background-color: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .text-blue-800 {
+            color: #93c5fd !important;
+        }
+
+        .dark-mode .hover\:bg-gray-100:hover {
+            background-color: var(--bg-primary) !important;
+        }
+
+        .dark-mode header {
+            background: linear-gradient(135deg, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .dark-mode .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--header-bg), #1e3a8a) !important;
+        }
+
+        .floating-home-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #3b82f6;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.floating-home-btn:hover {
+    background: #2563eb;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.floating-home-btn.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+    </div>
+
+<!-- Navigation Header -->
+<div id="header"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Solar Subsidy Calculator</h2>
+                <p class="text-lg mb-6">Calculate your potential subsidy under the PM Surya Ghar Yojana scheme based on your system capacity and location.</p>
+            </div>
+
+        <!-- Calculator Section -->
+        <section class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block input-label mb-2" for="calcCapacity">System Capacity (kW)</label>
+                    <input type="range" id="calcCapacity" min="1" max="10" value="3" class="w-full mb-2">
+                    <div class="flex justify-between">
+                        <span>1 kW</span>
+                        <span id="capacityValue">3 kW</span>
+                        <span>10 kW</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block input-label mb-2" for="calcState">State</label>
+                    <select id="calcState" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 input-field">
+                        <option value="delhi">Delhi</option>
+                        <option value="maharashtra">Maharashtra</option>
+                        <option value="karnataka">Karnataka</option>
+                        <option value="tamilnadu">Tamil Nadu</option>
+                        <option value="gujarat">Gujarat</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-blue-800 text-white rounded-lg">
+                <h3 class="text-lg font-semibold mb-2">Estimated Subsidy (to be approved yet)</h3>
+                <p id="calculatedSubsidy" class="text-2xl font-bold">₹14,000 - ₹18,000</p>
+                <p class="text-sm opacity-80 mt-2">Based on current subsidy rates for residential installations</p>
+            </div>
+        </section>
+
+        <!-- Subsidy Information Section -->
+        <section class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">Subsidy Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Eligibility Criteria (to be approved yet)</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="input-label">Residential consumers only</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="input-label">Must have valid electricity connection</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="input-label">Rooftop must be suitable for solar installation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="input-label">System capacity between a given range</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Subsidy Rates (to be approved yet)</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center py-2 px-4 bg-gray-50 rounded-lg">
+                            <span class="input-label">Up to 3 kW</span>
+                            <span class="font-semibold">₹14,588 per kW</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 px-4 bg-gray-50 rounded-lg">
+                            <span class="input-label">Above 3 kW</span>
+                            <span class="font-semibold">₹7,294 per kW</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 px-4 bg-gray-50 rounded-lg">
+                            <span class="input-label">Maximum Capacity</span>
+                            <span class="font-semibold">10 kW</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+<!-- Navigation Footer -->
+<div id="footer"></div>
+
+    <script>
+        // Universal header/footer loader with XMLHttpRequest fallback
+        function loadHeaderAndFooter() {
+            // Function to load file (works with both local and server files)
+            function loadFile(elementId, filename) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', filename, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            document.getElementById(elementId).innerHTML = xhr.responseText;
+                            console.log(`${filename} loaded successfully`);
+                            
+                            // If loading header, initialize its scripts
+                            if (filename === 'header.html') {
+                                initializeHeaderScripts();
+                            }
+                        } else {
+                            console.error(`Error loading ${filename}: ${xhr.status}`);
+                            document.getElementById(elementId).innerHTML = 
+                                `<div style="color: #666; padding: 20px; text-align: center;">
+                                    ${filename} content (${xhr.status} error)
+                                </div>`;
+                        }
+                    }
+                };
+                xhr.send();
+            }
+            
+            // Load both files
+            loadFile('header', 'header.html');
+            loadFile('footer', 'footer.html');
+        }
+        
+        function initializeHeaderScripts() {
+            // Add solar circuit initialization here if needed
+            const circuitContainer = document.getElementById('solarCircuit');
+            if (circuitContainer) {
+                console.log('Solar circuit container found');
+                // Initialize your solar circuit animation here
+            }
+        }
+        
+        // Start loading when page loads
+        window.addEventListener('load', loadHeaderAndFooter);
+    </script>
+
+    <!-- Floating Home Button -->
+    <a href="index.html" class="floating-home-btn pulse">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        }
+        
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Subsidy Calculator Elements
+        const calcCapacity = document.getElementById('calcCapacity');
+        const capacityValue = document.getElementById('capacityValue');
+        const calculatedSubsidy = document.getElementById('calculatedSubsidy');
+        const calcState = document.getElementById('calcState');
+
+        // Subsidy Calculator
+        calcCapacity.addEventListener('input', updateSubsidyCalculation);
+        calcState.addEventListener('change', updateSubsidyCalculation);
+
+        function updateSubsidyCalculation() {
+            const capacity = parseInt(calcCapacity.value);
+            capacityValue.textContent = `${capacity} kW`;
+            
+            const state = calcState.value;
+            
+            // Use mock subsidy calculation
+            const subsidyRange = calculateMockSubsidy(capacity, state);
+            calculatedSubsidy.textContent = subsidyRange;
+        }
+
+        function calculateMockSubsidy(capacity, state) {
+            let subsidy;
+            if (capacity <= 3) {
+                subsidy = capacity * 14588;
+            } else {
+                subsidy = (3 * 14588) + ((capacity - 3) * 7294);
+            }
+            
+            const stateMultipliers = {
+                'delhi': 1.0,
+                'maharashtra': 0.95,
+                'karnataka': 0.9,
+                'tamilnadu': 0.92,
+                'gujarat': 0.98
+            };
+            
+            const multiplier = stateMultipliers[state] || 1.0;
+            subsidy = subsidy * multiplier;
+            
+            // Add random variation
+            const variation = 0.9 + Math.random() * 0.2;
+            subsidy = subsidy * variation;
+            
+            const minSubsidy = Math.floor((subsidy / 1000)) * 1000 - 1000;
+            const maxSubsidy = Math.floor((subsidy / 1000)) * 1000 + 1000;
+            
+            return `₹${minSubsidy.toLocaleString()} - ₹${maxSubsidy.toLocaleString()}`;
+        }
+
+        // Initialize
+        updateSubsidyCalculation();
+    </script>
+</body>
+</html>
