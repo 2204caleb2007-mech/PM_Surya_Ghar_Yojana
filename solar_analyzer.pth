@@ -1,0 +1,9 @@
+# Create empty solar analyzer model weights
+python -c "
+import torch
+from ml_models.Solar_analyzer import SolarAnalyzer
+
+model = DefectDetector(num_classes=4)
+torch.save(model.state_dict(), 'model_weights/solar_analyzer.pth')
+print('Defect detector model saved with', sum(p.numel() for p in model.parameters()), 'parameters')
+"

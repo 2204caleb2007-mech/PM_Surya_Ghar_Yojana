@@ -1,0 +1,8 @@
+python -c "
+import torch
+from ml_models.soiling_analyzer import SoilingDetector
+
+model = SoilingDetector()
+torch.save(model.state_dict(), 'model_weights/soiling_analyzer.pth')
+print('Soiling analyzer model saved with', sum(p.numel() for p in model.parameters()), 'parameters')
+"

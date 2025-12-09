@@ -1,0 +1,9 @@
+python -c "
+import torch
+from segmentation_model import UNet
+
+# Create and save the UNet model
+model = UNet(in_channels=3, out_channels=1)
+torch.save(model.state_dict(), 'model_weights/segmentation_model.pth')
+print('Segmentation model saved with', sum(p.numel() for p in model.parameters()), 'parameters')
+"

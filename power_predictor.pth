@@ -1,0 +1,8 @@
+python -c "
+import torch
+from ml_models.power_predictor import PowerPredictor
+
+model = PowerPredictor()
+torch.save(model.state_dict(), 'model_weights/power_predictor.pth')
+print('Power predictor model saved with', sum(p.numel() for p in model.parameters()), 'parameters')
+"
